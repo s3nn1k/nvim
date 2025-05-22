@@ -1,0 +1,38 @@
+return {
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	main = "nvim-treesitter.configs", -- Sets main module to use for opts
+	opts = {
+		ensure_installed = {
+			"bash",
+			"c",
+			"diff",
+			"html",
+			"lua",
+			"luadoc",
+			"markdown",
+			"markdown_inline",
+			"query",
+			"vim",
+			"vimdoc",
+			"css",
+			"javascript",
+			"typescript",
+			"tsx",
+			"python",
+			"go",
+			"yaml",
+			"sql",
+			"toml",
+			"json",
+		},
+
+		auto_install = true,
+
+		highlight = {
+			enable = true,
+		},
+
+		indent = { enable = true },
+	},
+}
