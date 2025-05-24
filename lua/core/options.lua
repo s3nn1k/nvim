@@ -47,3 +47,11 @@ opt.showcmd = false
 -- minimal lines and columns to keep on scroll
 opt.scrolloff = 4
 opt.sidescrolloff = 8
+
+-- file editing
+opt.swapfile = false
+opt.backup = false
+opt.undofile = true
+
+-- colors
+opt.termguicolors = true

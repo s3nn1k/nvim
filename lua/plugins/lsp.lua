@@ -11,7 +11,7 @@ return {
 			capabilities = capabilities,
 			settings = {
 				gopls = {
-					buildFlags = { "-tags=tests" }, -- (for magnit tests) TODO: Fix it
+					buildFlags = { "-tags=tests,integration" }, -- (for magnit and wb tests) TODO: Fix it
 				},
 			},
 		})
@@ -76,7 +76,6 @@ return {
 				map.set("n", "<leader>d", builtin.lsp_definitions, opts)
 				map.set("n", "<leader>r", builtin.lsp_references, opts)
 				map.set("n", "<leader>i", builtin.lsp_implementations, opts)
-				map.set("n", "<leader>e", builtin.lsp_document_symbols, opts)
 			end,
 		})
 	end,

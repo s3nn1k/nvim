@@ -108,5 +108,6 @@ return {
 		map.set("n", "<leader>fb", builtin.git_branches, opts)
 		map.set("n", "<leader>fc", builtin.git_commits, opts)
 		map.set("n", "<leader>fd", builtin.diagnostics, opts)
+		map.set("n", "<leader>fb", builtin.buffers, opts)
 	end,
 }

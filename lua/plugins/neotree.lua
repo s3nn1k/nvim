@@ -15,7 +15,7 @@ return {
 		require("neo-tree").setup({
 			popup_border_style = "single",
 			default_component_configs = {
-				indent = { with_markers = false },
+				indent = { with_markers = true },
 				icon = { folder_empty = "" },
 				name = { use_git_status_colors = false },
 				git_status = {
