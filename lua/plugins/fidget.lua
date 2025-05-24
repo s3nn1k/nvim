@@ -5,6 +5,7 @@ return {
 			window = {
 				winblend = 0,
 				x_padding = 2,
+				y_padding = 1,
 			},
 		},
 	},

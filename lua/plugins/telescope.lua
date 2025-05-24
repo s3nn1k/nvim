@@ -109,5 +109,6 @@ return {
 		map.set("n", "<leader>gc", builtin.git_commits, opts)
 		map.set("n", "<leader>fd", builtin.diagnostics, opts)
 		map.set("n", "<leader>fb", builtin.buffers, opts)
+		map.set("n", "<leader>jl", builtin.jumplist, opts)
 	end,
 }

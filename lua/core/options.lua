@@ -38,12 +38,6 @@ opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
 
--- disable statusline
-opt.showmode = false
-opt.ruler = false
-opt.laststatus = 0
-opt.showcmd = false
-
 -- minimal lines and columns to keep on scroll
 opt.scrolloff = 4
 opt.sidescrolloff = 8
