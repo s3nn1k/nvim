@@ -9,8 +9,8 @@ return {
 		local map = vim.keymap
 		local opts = { noremap = true, silent = true }
 
-		map.set("n", "<leader>te", "<cmd> Neotree toggle reveal <CR>", opts)
-		map.set("n", "<leader>tg", "<cmd> Neotree toggle git_status <CR>", opts)
+		map.set("n", "<leader>te", "<cmd> Neotree filesystem toggle reveal <CR>", opts)
+		map.set("n", "<leader>tg", "<cmd> Neotree git_status toggle reveal <CR>", opts)
 
 		require("neo-tree").setup({
 			popup_border_style = "single",
@@ -38,6 +38,7 @@ return {
 
 			window = {
 				position = "right",
+				auto_resize = false,
 				float_opts = {
 					border = "single",
 				},
@@ -121,10 +122,6 @@ return {
 					fuzzy_finder_mappings = {
 						["<C-n>"] = "move_cursor_down",
 						["<C-p>"] = "move_cursor_up",
-
-						-- disabled
-						["<up>"] = "none",
-						["<down>"] = "none",
 					},
 				},
 			},

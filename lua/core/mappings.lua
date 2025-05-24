@@ -44,9 +44,6 @@ map.set("n", "<C-q>", "<cmd> q <CR>", opts) -- quit
 map.set("n", "<Tab>", "<cmd> bnext <CR>", opts)
 map.set("n", "<S-Tab>", "<cmd> bprevious <CR>", opts)
 
--- buffers management
-map.set("n", "<leader>q", "<cmd> bd <CR>", opts) -- quit buffer
-
 -- resize window
 map.set("n", "<Up>", "<cmd> resize -2<CR>", opts)
 map.set("n", "<Down>", "<cmd> resize +2<CR>", opts)
@@ -64,5 +61,19 @@ map.set("n", "<leader>sv", "<C-w>v", opts) -- split vertical
 map.set("n", "<leader>sh", "<C-w>s", opts) -- split horizontal
 map.set("n", "<leader>se", "<C-w>=", opts) -- set equal
 map.set("n", "<leader>cw", "<cmd> close <CR>", opts) -- close window
+
+-- buffers management
+local delete_or_switch = function()
+	local buf = vim.api.nvim_get_current_buf()
+	local buf_count = #vim.api.nvim_list_bufs()
+
+	if buf_count > 1 then
+		vim.cmd("bp|bd " .. buf)
+	else
+		vim.cmd("bd")
+	end
+end
+
+map.set("n", "<leader>q", delete_or_switch, opts) -- quit buffer
 
 -- plugin-specified mappings listed in the same named .lua files
