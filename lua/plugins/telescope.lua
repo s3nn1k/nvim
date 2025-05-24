@@ -15,7 +15,13 @@ return {
 				},
 				mappings = {
 					i = {
-						["<esc>"] = actions.close,
+						["<esc>"] = function(prompt_bufnr)
+							vim.opt.laststatus = 2
+							vim.opt.showmode = true
+							vim.opt.ruler = true
+							vim.opt.showcmd = true
+							actions.close(prompt_bufnr)
+						end,
 						["<Tab>"] = actions.move_selection_next,
 						["<S-Tab>"] = actions.move_selection_previous,
 						["<CR>"] = actions.select_default,
@@ -84,6 +90,16 @@ return {
 
 			return opts
 		end
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "TelescopePrompt*",
+			callback = function()
+				vim.o.showmode = false
+				vim.o.ruler = false
+				vim.o.laststatus = 0
+				vim.o.showcmd = false
+			end,
+		})
 
 		local builtin = require("telescope.builtin")
 
