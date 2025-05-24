@@ -6,6 +6,9 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				go = { "goimports" },
+				json = { "prettier" },
+				markdown = { "prettier" },
+				sql = { "sql_formatter" },
 
 				-- Enable it if you need
 				-- python = { "black" },
@@ -16,9 +19,6 @@ return {
 				-- css = { "prettier" },
 				-- html = { "prettier" },
 				-- yaml = { "prettier" },
-				json = { "prettier" },
-				markdown = { "prettier" },
-				sql = { "sql_formatter" },
 			},
 			format_on_save = {
 				lsp_format = "fallback",

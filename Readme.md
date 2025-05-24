@@ -10,11 +10,11 @@
 
 3. RipGrep - winget install BurntSushi.ripgrep.MSVC
 
-4. Терминал с поддержкой NerdFont - winget install Microsoft.WindowsTerminal
+4. WindowsTerminal - winget install Microsoft.WindowsTerminal
 
 5. Npm - winget install OpenJS.NodeJS
 
-6. winget install Chocolatey.Chocolatey
+6. Choco - winget install Chocolatey.Chocolatey
 
 ## Языки
 
@@ -40,11 +40,11 @@
 
 2. Sql-formatter - npm install -g sql-formatter
 
-3. Goimports - go install golang.org/x/tools/cmd/goimports@latest
+3. Stylua - choco install stylua
 
-4. Black - pip install black (Optional)
+4. Goimports - go install golang.org/x/tools/cmd/goimports@latest
 
-5. Stylua - choco install stylua (Optional)
+5. Black - pip install black (Optional)
 
 # Темы для Windows Terminal
 
@@ -55,3 +55,5 @@
 Dbeaver - winget install dbeaver.dbeaver
 
 Neovim - winget install Neovim.Neovim
+
+Redis - winget install qishibo.AnotherRedisDesktopManager

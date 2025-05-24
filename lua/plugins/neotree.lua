@@ -9,7 +9,7 @@ return {
 		local map = vim.keymap
 		local opts = { noremap = true, silent = true }
 
-		map.set("n", "<leader>tt", "<cmd> Neotree toggle reveal <CR>", opts)
+		map.set("n", "<leader>te", "<cmd> Neotree toggle reveal <CR>", opts)
 		map.set("n", "<leader>tg", "<cmd> Neotree toggle git_status <CR>", opts)
 
 		require("neo-tree").setup({
@@ -129,7 +129,7 @@ return {
 				},
 			},
 
-			-- disabled because of bufferline
+			-- disabled because of telescope usage
 			buffers = {
 				window = {
 					mappings = {
@@ -155,10 +155,10 @@ return {
 						["a"] = "git_add_file",
 						["r"] = "git_revert_file",
 						["c"] = "git_commit",
-						["p"] = "git_push",
-						["cap"] = "git_commit_and_push",
 
 						-- disabled
+						["p"] = "none",
+						["cap"] = "none",
 						["o"] = "none",
 						["oc"] = "none",
 						["od"] = "none",

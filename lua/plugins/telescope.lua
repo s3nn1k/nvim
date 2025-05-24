@@ -104,9 +104,9 @@ return {
 
 		map.set("n", "<leader>ff", find_files_from_project_root, opts)
 		map.set("n", "<leader>fs", live_grep_from_project_root, opts)
-		map.set("n", "<leader>fw", grep_string_from_project_root, opts)
-		map.set("n", "<leader>fb", builtin.git_branches, opts)
-		map.set("n", "<leader>fc", builtin.git_commits, opts)
+		map.set({ "n", "v" }, "<leader>fw", grep_string_from_project_root, opts)
+		map.set("n", "<leader>gb", builtin.git_branches, opts)
+		map.set("n", "<leader>gc", builtin.git_commits, opts)
 		map.set("n", "<leader>fd", builtin.diagnostics, opts)
 		map.set("n", "<leader>fb", builtin.buffers, opts)
 	end,
