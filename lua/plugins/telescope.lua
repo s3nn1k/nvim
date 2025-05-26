@@ -15,13 +15,7 @@ return {
 				},
 				mappings = {
 					i = {
-						["<esc>"] = function(prompt_bufnr)
-							vim.opt.laststatus = 2
-							vim.opt.showmode = true
-							vim.opt.ruler = true
-							vim.opt.showcmd = true
-							actions.close(prompt_bufnr)
-						end,
+						["<esc>"] = actions.close,
 						["<Tab>"] = actions.move_selection_next,
 						["<S-Tab>"] = actions.move_selection_previous,
 						["<CR>"] = actions.select_default,
@@ -92,12 +86,23 @@ return {
 		end
 
 		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "TelescopePrompt*",
+			pattern = "TelescopePrompt",
 			callback = function()
 				vim.o.showmode = false
 				vim.o.ruler = false
 				vim.o.laststatus = 0
 				vim.o.showcmd = false
+			end,
+		})
+
+		vim.api.nvim_create_autocmd("BufWipeout", {
+			callback = function()
+				if vim.bo.filetype == "TelescopePrompt" then
+					vim.o.showmode = true
+					vim.o.ruler = true
+					vim.o.laststatus = 2
+					vim.o.showcmd = true
+				end
 			end,
 		})
 
