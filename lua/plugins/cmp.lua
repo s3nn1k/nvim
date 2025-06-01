@@ -4,6 +4,7 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-cmdline",
+		"hrsh7th/cmp-nvim-lsp",
 		{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
 	},
 	config = function()
@@ -42,6 +43,10 @@ return {
 				{ name = "cmdline" },
 			}),
 			matching = { disallow_symbol_nonprefix_matching = false },
+		})
+
+		vim.lsp.config("*", {
+			capabilites = require("cmp_nvim_lsp").default_capabilities(),
 		})
 	end,
 }
