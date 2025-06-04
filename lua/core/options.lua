@@ -49,3 +49,7 @@ opt.undofile = true
 
 -- colors
 opt.termguicolors = true
+
+-- hide all under statusline
+opt.showmode = false
+vim.opt.laststatus = 3
