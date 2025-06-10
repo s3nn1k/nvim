@@ -11,14 +11,18 @@ return {
 				mode = "buffers",
 				themable = true,
 				tab_size = 22,
-				separator_style = { "│", "│" },
+				separator_style = { "|", "|" },
 				diagnostics = "nvim_lsp",
+				indicator = {
+					style = "none",
+				},
 				offsets = {
 					{
 						filetype = "neo-tree",
 						text = "Project Neo-Tree",
 						highlight = "Directory",
 						text_align = "center",
+						separator = true,
 					},
 				},
 			},

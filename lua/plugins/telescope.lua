@@ -10,9 +10,10 @@ return {
 					horizontal = {
 						height = 0.9,
 						width = 0.9,
-						preview_width = 0.6,
+						preview_width = 0.4,
 					},
 				},
+				path_display = { "filename_first" },
 				mappings = {
 					i = {
 						["<esc>"] = actions.close,
