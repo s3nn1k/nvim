@@ -11,7 +11,7 @@ return {
 				mode = "buffers",
 				themable = true,
 				tab_size = 22,
-				separator_style = { "|", "|" },
+				separator_style = { "│", "│" },
 				diagnostics = "nvim_lsp",
 				indicator = {
 					style = "none",
