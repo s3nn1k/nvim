@@ -23,16 +23,16 @@ return {
 				},
 			},
 
-			-- disable all except unselected buffers
+			-- disable background
 			highlights = {
 				fill = { bg = "NONE" },
-				-- background = { bg = "NONE" },
+				background = { bg = "NONE" },
 				tab = { bg = "NONE" },
 				tab_selected = { bg = "NONE" },
 				tab_separator = { bg = "NONE" },
 				tab_separator_selected = { bg = "NONE" },
 				tab_close = { bg = "NONE" },
-				-- close_button = { bg = "NONE" },
+				close_button = { bg = "NONE" },
 				close_button_visible = { bg = "NONE" },
 				close_button_selected = { bg = "NONE" },
 				buffer_visible = { bg = "NONE" },
