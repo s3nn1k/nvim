@@ -3,7 +3,7 @@ return {
 	priority = 1000,
 	config = function()
 		require("kanagawa").setup({
-			transparent = true,
+			transparent = false,
 			colors = { theme = { all = { ui = { bg_gutter = "none" } } } },
 			overrides = function(colors)
 				local theme = colors.theme
@@ -23,5 +23,5 @@ return {
 		})
 
 		vim.cmd("colorscheme kanagawa-wave")
-	end
+	end,
 }
