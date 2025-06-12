@@ -4,6 +4,16 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	config = function()
 		local actions = require("telescope.actions")
+		local actions_set = require("telescope.actions.set")
+
+		local function jump_up(prompt_bufnr)
+			actions_set.shift_selection(prompt_bufnr, -5)
+		end
+
+		local function jump_down(prompt_bufnr)
+			actions_set.shift_selection(prompt_bufnr, 5)
+		end
+
 		require("telescope").setup({
 			defaults = {
 				layout_config = {
@@ -24,6 +34,8 @@ return {
 						["<C-j>"] = actions.preview_scrolling_down,
 						["<C-h>"] = actions.preview_scrolling_left,
 						["<C-l>"] = actions.preview_scrolling_right,
+						["<C-u>"] = jump_up,
+						["<C-d>"] = jump_down,
 
 						-- disabled
 						["<C-n>"] = false,
@@ -39,8 +51,6 @@ return {
 						["G"] = false,
 						["<C-x>"] = false,
 						["<C-v>"] = false,
-						["<C-u>"] = false,
-						["<C-d>"] = false,
 						["<C-f>"] = false,
 						["<C-t>"] = false,
 						["<M-f>"] = false,
