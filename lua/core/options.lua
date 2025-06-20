@@ -52,4 +52,7 @@ opt.termguicolors = true
 
 -- hide all under statusline
 opt.showmode = false
-vim.opt.laststatus = 3
+opt.laststatus = 3
+
+-- disable adding new line at the end of file
+opt.fixendofline = false
