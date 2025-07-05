@@ -8,10 +8,10 @@ return {
 				go = { "goimports" },
 				json = { "prettier" },
 				markdown = { "prettier" },
-				sql = { "sql_formatter" },
 
 				-- Enable it if you need
 				-- python = { "black" },
+				-- sql = { "sql_formatter" },
 				-- javascript = { "prettier" },
 				-- typescript = { "prettier" },
 				-- javascriptreact = { "prettier" },
