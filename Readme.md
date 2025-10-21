@@ -1,6 +1,6 @@
 # Зависимости
 
-1. gcc, ripgrep, win32yank, git
+1. gcc, ripgrep, git
 
 2. golang
 

@@ -8,8 +8,7 @@ return {
 				go = { "goimports" },
 				json = { "prettier" },
 				markdown = { "prettier" },
-
-				-- Enable it if you need
+				yaml = { "prettier" },
 				-- python = { "black" },
 				-- sql = { "sql_formatter" },
 				-- javascript = { "prettier" },
@@ -18,7 +17,6 @@ return {
 				-- typescriptreact = { "prettier" },
 				-- css = { "prettier" },
 				-- html = { "prettier" },
-				-- yaml = { "prettier" },
 			},
 			format_on_save = {
 				lsp_format = "fallback",
