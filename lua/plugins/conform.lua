@@ -9,6 +9,8 @@ return {
 				json = { "prettier" },
 				markdown = { "prettier" },
 				yaml = { "prettier" },
+				yml = { "prettier" },
+				toml = { "taplo" },
 				sql = { "sql_formatter" },
 				-- python = { "black" },
 				-- javascript = { "prettier" },
