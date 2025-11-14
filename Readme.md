@@ -6,7 +6,7 @@
 
 3. lua-language-server, gopls
 
-4. prettier, stylua, goimports
+4. prettier, stylua, goimports, taplo, sql_formatter
 
 ## Cвязанные вещи
 
