@@ -5,6 +5,7 @@ return {
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-path",
 		{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
 	},
 	config = function()
@@ -27,6 +28,7 @@ return {
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
+				{ name = "path" },
 			}),
 		})
 
@@ -46,7 +48,7 @@ return {
 		})
 
 		vim.lsp.config("*", {
-			capabilites = require("cmp_nvim_lsp").default_capabilities(),
+			capabilities = require("cmp_nvim_lsp").default_capabilities(),
 		})
 	end,
 }

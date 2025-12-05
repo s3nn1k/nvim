@@ -1,3 +1,5 @@
+local smart_goto = require("package.smart_goto")
+
 -- Enabled LSP Servers
 vim.lsp.enable({
 	"gopls",
@@ -33,7 +35,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map.set("n", "<leader>h", vim.diagnostic.open_float, opts)
 		map.set("n", "<leader>R", buf.rename, opts)
-		map.set("n", "<leader>d", builtin.lsp_definitions, opts)
+		map.set("n", "<leader>d", smart_goto.smart_goto, opts)
 		map.set("n", "<leader>r", builtin.lsp_references, opts)
 		map.set("n", "<leader>i", builtin.lsp_implementations, opts)
 	end,
