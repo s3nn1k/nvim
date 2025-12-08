@@ -4,6 +4,7 @@ local smart_goto = require("package.smart_goto")
 vim.lsp.enable({
 	"gopls",
 	"lua_ls",
+	"kulala_ls",
 })
 
 -- Visual
