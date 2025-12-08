@@ -4,9 +4,9 @@
 
 2. golang
 
-3. lua-language-server, gopls
+3. lua-language-server, gopls, kulala-ls
 
-4. prettier, stylua, goimports, taplo, sql_formatter
+4. prettier, stylua, goimports, taplo, sql_formatter, kulala-fmt
 
 ## Cвязанные вещи
 
