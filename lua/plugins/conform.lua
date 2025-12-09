@@ -12,8 +12,6 @@ return {
 				yml = { "prettier" },
 				toml = { "taplo" },
 				sql = { "sql_formatter" },
-				http = { "kulala-fmt" },
-				rest = { "kulala-fmt" },
 			},
 
 			-- IMPORTANT: Make format_on_save conditional
