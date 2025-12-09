@@ -2,6 +2,7 @@
 local g = vim.g
 local map = vim.keymap
 local bufs = require("package.buffers")
+local smart_goto = require("package.smart_goto")
 
 -- leader key
 g.mapleader = " "
@@ -62,7 +63,10 @@ map.set("n", "<leader>cw", "<cmd> close <CR>", opts) -- close window
 map.set("n", "<leader>q", bufs.smart_close, opts) -- quit buffer
 
 -- navigate between buffers
-map.set("n", "<Tab>", bufs.safe_buffer_switch("next"), opts)
-map.set("n", "<S-Tab>", bufs.safe_buffer_switch("previous"), opts)
+map.set("n", "<Tab>", bufs.safe_buffer_switch("next"), opts) -- next buffer
+map.set("n", "<S-Tab>", bufs.safe_buffer_switch("previous"), opts) -- prev buffer
+
+-- go to [d]efinition or go to file using one hotkey
+map.set("n", "<leader>d", smart_goto.smart_goto, { desc = "smart goto" })
 
 -- plugin-specified mappings listed in the same named .lua files

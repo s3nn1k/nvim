@@ -1,6 +1,16 @@
 local M = {}
 
--- Позволяет переходить по одному хоткею к файлам и definition'ам
+local function normalize_md_link(word)
+	word = word:gsub("^%(", ""):gsub("%)$", "")
+	word = word:gsub("^%[", ""):gsub("%]$", "")
+	word = word:gsub("^<", ""):gsub(">$", "")
+	word = word:gsub("^.-%(", ""):gsub("%)$", "")
+	word = word:gsub("#.*$", "")
+	word = word:gsub("['\"]", ""):gsub("%s+", "")
+
+	return word
+end
+
 function M.smart_goto()
 	local params = vim.lsp.util.make_position_params(0, "utf-16")
 	local results = vim.lsp.buf_request_sync(0, "textDocument/definition", params, 1000)
@@ -20,9 +30,14 @@ function M.smart_goto()
 		return
 	end
 
-	local file = vim.fn.expand("<cWORD>"):gsub("[\"'%s]", "")
-	file = vim.fn.fnamemodify(file, ":p")
+	local word = vim.fn.expand("<cWORD>")
+	local path = normalize_md_link(word)
+	if path == "" then
+		vim.notify("Can't extract path from: " .. word, vim.log.levels.WARN)
+		return
+	end
 
+	local file = vim.fn.fnamemodify(path, ":p")
 	if vim.fn.filereadable(file) == 1 then
 		vim.cmd("edit " .. file)
 	else

@@ -4,20 +4,6 @@
 
 2. golang
 
-3. lua-language-server, gopls, kulala-ls
+3. lua-language-server, gopls, kulala-ls (builtin formater)
 
-4. prettier, stylua, goimports, taplo, sql_formatter, kulala-fmt
-
-## Cвязанные вещи
-
-Dbeaver - winget install dbeaver.dbeaver
-
-Neovim - winget install Neovim.Neovim
-
-Redis - winget install qishibo.AnotherRedisDesktopManager
-
-Lens - winget install Mirantis.Lens
-
-Postman - winget install Postman.Postman
-
-Docker - winget install Docker.DockerDesktop
+4. prettier, stylua, goimports, taplo, sql-formatter
