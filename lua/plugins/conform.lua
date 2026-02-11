@@ -5,7 +5,7 @@ return {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				go = { "goimports" },
+				go = { "goimports", "injected" }, -- injected для sql форматтирования внутри go кода
 				json = { "prettier" },
 				markdown = { "prettier" },
 				yaml = { "prettier" },
@@ -13,6 +13,26 @@ return {
 				toml = { "taplo" },
 				sql = { "sql_formatter" },
 				python = { "black" },
+
+				-- Форматирование "впрыснутого" кода (SQL внутри строк в Python/JS/etc)
+				["_"] = { "injected" },
+			},
+
+			formatters = {
+				sql_formatter = {
+					args = {
+						"--language",
+						"postgresql",
+						"--config",
+						'{"paramTypes": {"named": ["@"]}}',
+					},
+				},
+				injected = {
+					options = {
+						ignore_errors = false,
+						lang_to_ext = { sql = "sql" },
+					},
+				},
 			},
 
 			-- IMPORTANT: Make format_on_save conditional
@@ -21,7 +41,7 @@ return {
 					return nil -- disable formatting
 				end
 				return {
-					lsp_format = "fallback",
+					lsp_format = "never",
 					timeout_ms = 3000,
 				}
 			end,
