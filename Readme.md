@@ -1,9 +1,29 @@
 # Зависимости
 
-1. gcc, ripgrep, git
+1. Утилиты:
 
-2. golang
+- gcc
+- ripgrep
+- git
 
-3. lua-language-server, gopls, kulala-ls (builtin formater)
+2. Языки:
 
-4. prettier, stylua, goimports, taplo, sql-formatter
+- golang
+- python
+- lua
+
+3. LSP:
+
+- lua-language-server
+- gopls
+- kulala-ls (builtin formater)
+- pyright
+
+4. Форматтеры:
+
+- prettier
+- stylua
+- goimports
+- taplo
+- sql-formatter
+- black

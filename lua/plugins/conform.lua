@@ -12,6 +12,7 @@ return {
 				yml = { "prettier" },
 				toml = { "taplo" },
 				sql = { "sql_formatter" },
+				python = { "black" },
 			},
 
 			-- IMPORTANT: Make format_on_save conditional
@@ -21,7 +22,7 @@ return {
 				end
 				return {
 					lsp_format = "fallback",
-					timeout_ms = 1250,
+					timeout_ms = 3000,
 				}
 			end,
 		})
