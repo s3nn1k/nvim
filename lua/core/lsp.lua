@@ -3,6 +3,7 @@ vim.lsp.enable({
 	"gopls",
 	"lua_ls",
 	"kulala_ls",
+	"pyright_ls",
 })
 
 -- Visual
