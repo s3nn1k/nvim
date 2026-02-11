@@ -24,7 +24,7 @@ return {
 						"--language",
 						"postgresql",
 						"--config",
-						'{"paramTypes": {"named": ["@"]}}',
+						[[{"paramTypes": {"custom": [{"regex": "@\\w+"}, {"regex": "%s"}]}}]],
 					},
 				},
 				injected = {
