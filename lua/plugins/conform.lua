@@ -54,6 +54,10 @@ return {
 		end, {})
 
 		-- Keybind
-		vim.keymap.set("n", "<leader>tf", "<cmd>FormatToggle<CR>", { noremap = true, silent = true })
+		vim.keymap.set("n", "<leader>tf", "<cmd>FormatToggle<CR>", {
+			noremap = true,
+			silent = true,
+			desc = require("package.keymaps").desc("Toggle autoformat"),
+		})
 	end,
 }

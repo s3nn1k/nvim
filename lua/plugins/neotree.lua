@@ -7,10 +7,14 @@ return {
 	},
 	config = function()
 		local map = vim.keymap
-		local opts = { noremap = true, silent = true }
+		local km = require("package.keymaps")
+		local base_opts = { noremap = true, silent = true }
+		local function opts(desc, extra)
+			return km.opts(base_opts, desc, extra)
+		end
 
-		map.set("n", "<leader>te", "<cmd> Neotree filesystem toggle reveal <CR>", opts)
-		map.set("n", "<leader>tg", "<cmd> Neotree git_status toggle reveal <CR>", opts)
+		map.set("n", "<leader>te", "<cmd> Neotree filesystem toggle reveal <CR>", opts("Toggle file tree"))
+		map.set("n", "<leader>tg", "<cmd> Neotree git_status toggle reveal <CR>", opts("Toggle git status tree"))
 
 		require("neo-tree").setup({
 			popup_border_style = "single",

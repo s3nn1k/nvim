@@ -11,7 +11,7 @@ return {
 			function()
 				require("kulala").run()
 			end,
-			desc = "Execute current HTTP request",
+			desc = require("package.keymaps").desc("Execute current HTTP request"),
 			mode = { "n", "v" },
 		},
 	},
