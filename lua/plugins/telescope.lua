@@ -111,15 +111,19 @@ return {
 		end
 
 		local map = vim.keymap
-		local opts = { noremap = true, silent = true }
+		local km = require("package.keymaps")
+		local base_opts = { noremap = true, silent = true }
+		local function opts(desc, extra)
+			return km.opts(base_opts, desc, extra)
+		end
 
-		map.set("n", "<leader>ff", find_files_from_project_root, opts)
-		map.set("n", "<leader>fs", live_grep_from_project_root, opts)
-		map.set({ "n", "v" }, "<leader>fw", grep_string_from_project_root, opts)
-		map.set("n", "<leader>gb", builtin.git_branches, opts)
-		map.set("n", "<leader>gc", builtin.git_commits, opts)
-		map.set("n", "<leader>fd", builtin.diagnostics, opts)
-		map.set("n", "<leader>fb", builtin.buffers, opts)
-		map.set("n", "<leader>jl", builtin.jumplist, opts)
+		map.set("n", "<leader>ff", find_files_from_project_root, opts("Find files (project root)"))
+		map.set("n", "<leader>fs", live_grep_from_project_root, opts("Live grep (project root)"))
+		map.set({ "n", "v" }, "<leader>fw", grep_string_from_project_root, opts("Grep word (project root)"))
+		map.set("n", "<leader>gb", builtin.git_branches, opts("Git branches"))
+		map.set("n", "<leader>gc", builtin.git_commits, opts("Git commits"))
+		map.set("n", "<leader>fd", builtin.diagnostics, opts("Diagnostics"))
+		map.set("n", "<leader>fb", builtin.buffers, opts("Buffers"))
+		map.set("n", "<leader>jl", builtin.jumplist, opts("Jumplist"))
 	end,
 }
