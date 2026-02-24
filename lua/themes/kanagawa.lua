@@ -29,6 +29,12 @@ return {
 						fg = theme.ui.special,
 					},
 
+					WhichKeyTitle = {
+						fg = theme.ui.fg_dim,
+						bg = theme.ui.bg_m1,
+						bold = true,
+					},
+
 					-- Noice search popup (/ and ?)
 					NoiceCmdlinePopupSearch = { bg = theme.ui.bg_dim },
 					NoiceCmdlineIconSearch = { fg = theme.ui.special },
