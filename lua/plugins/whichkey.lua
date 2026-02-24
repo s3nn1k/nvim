@@ -14,14 +14,13 @@ return {
 	config = function()
 		local wk = require("which-key")
 		local km = require("package.keymaps")
-		local win_w = math.max(20, math.floor(vim.o.columns * 0.25))
-		local win_h = math.max(4, math.floor(vim.o.lines * 0.35))
+		-- Use relative dimensions so the popup adapts to terminal resizes.
+		-- (Fixed numbers are calculated only once at startup.)
 		local bottom_offset = 2 -- keep space for statusline (lualine) + safety
 		local right_offset = 1
 		wk.setup({
 			triggers = {},
-			show_help = false,
-			show_keys = false,
+			show_keys = true,
 			notify = false,
 			keys = {
 				-- These must NOT be valid keymaps, otherwise which-key will execute them.
@@ -65,10 +64,12 @@ return {
 				padding = { 1, 1 },
 				title = "Dictionary",
 				title_pos = "center",
-				width = win_w,
-				height = win_h,
-				row = math.max(0, vim.o.lines - win_h - bottom_offset),
-				col = vim.o.columns - win_w - right_offset,
+				-- clamp to at least 50x4, otherwise use a percentage of the editor size
+				width = { min = 50, max = 0.25 },
+				height = { min = 4, max = 0.35 },
+				-- bottom-right with a small safety margin
+				row = -bottom_offset,
+				col = -right_offset,
 			},
 		})
 
