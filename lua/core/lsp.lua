@@ -4,6 +4,7 @@ vim.lsp.enable({
 	"lua_ls",
 	"kulala_ls",
 	"pyright_ls",
+	"ts_ls",
 })
 
 -- Visual
