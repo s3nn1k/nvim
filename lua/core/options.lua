@@ -54,8 +54,5 @@ opt.termguicolors = true
 opt.showmode = false
 opt.laststatus = 3
 
--- disable adding new line at the end of file
-opt.fixendofline = false
-
 -- disable cmdline and serch with messages
 vim.opt.cmdheight = 0

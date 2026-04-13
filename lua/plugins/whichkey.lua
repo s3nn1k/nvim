@@ -77,6 +77,7 @@ return {
 			{ "<leader>f", group = "find" },
 			{ "<leader>g", group = "git" },
 			{ "<leader>j", group = "jump" },
+			{ "<leader>l", group = "lsp" },
 			{ "<leader>s", group = "split" },
 			{ "<leader>t", group = "toggle" },
 			{ "<leader>c", group = "close" },

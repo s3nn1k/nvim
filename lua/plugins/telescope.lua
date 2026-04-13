@@ -1,7 +1,10 @@
 return {
 	"nvim-telescope/telescope.nvim",
 	branch = "master",
-	dependencies = { "nvim-lua/plenary.nvim" },
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+	},
 	config = function()
 		local actions = require("telescope.actions")
 		local actions_set = require("telescope.actions.set")
@@ -15,6 +18,9 @@ return {
 		end
 
 		require("telescope").setup({
+			extensions = {
+				fzf = {},
+			},
 			defaults = {
 				layout_config = {
 					horizontal = {
@@ -96,6 +102,8 @@ return {
 			return opts
 		end
 
+		require("telescope").load_extension("fzf")
+
 		local builtin = require("telescope.builtin")
 
 		local function find_files_from_project_root()
@@ -120,7 +128,7 @@ return {
 		map.set("n", "<leader>ff", find_files_from_project_root, opts("Find files (project root)"))
 		map.set("n", "<leader>fs", live_grep_from_project_root, opts("Live grep (project root)"))
 		map.set({ "n", "v" }, "<leader>fw", grep_string_from_project_root, opts("Grep word (project root)"))
-		map.set("n", "<leader>gb", builtin.git_branches, opts("Git branches"))
+		map.set("n", "<leader>gn", builtin.git_branches, opts("Git branches"))
 		map.set("n", "<leader>gc", builtin.git_commits, opts("Git commits"))
 		map.set("n", "<leader>fd", builtin.diagnostics, opts("Diagnostics"))
 		map.set("n", "<leader>fb", builtin.buffers, opts("Buffers"))
