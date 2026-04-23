@@ -12,9 +12,6 @@ g.maplocalleader = " "
 -- disable spacebar default behavior (for leader key)
 map.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true, desc = km.desc("Disable <Space> (leader)") })
 
--- disable visual block (for terminal vertical split)
-map.set("n", "<C-V>", "<Nop>", { silent = true, desc = km.desc("Disable visual block") })
-
 -- disable default hover
 map.set("n", "K", "<Nop>", { silent = true, desc = km.desc("Disable default hover") })
 
