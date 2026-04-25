@@ -23,6 +23,10 @@ return {
 		},
 	},
 	keys = {
-		{ "<leader>z", "<cmd>ZenMode<cr>", desc = "Toggle Zen Mode" },
+		{
+			"<leader>z",
+			"<cmd>ZenMode<cr>",
+			desc = require("package.keymaps").desc("Toggle Zen Mode"),
+		},
 	},
 }
