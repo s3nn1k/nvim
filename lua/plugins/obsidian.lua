@@ -9,6 +9,11 @@ return {
 			"<cmd>Obsidian new<cr>",
 			desc = require("package.keymaps").desc("Obsidian: new note"),
 		},
+		{
+			"<leader>ot",
+			"<cmd>Obsidian tags<cr>",
+			desc = require("package.keymaps").desc("Obsidian: vault tags"),
+		},
 	},
 	dependencies = { "nvim-lua/plenary.nvim" },
 	opts = {
@@ -42,7 +47,7 @@ return {
 		sync = { enabled = false },
 
 		completion = {
-			nvim_cmp = false,
+			nvim_cmp = true,
 			blink = false,
 			create_new = false,
 		},
