@@ -14,6 +14,11 @@ return {
 			"<cmd>Obsidian tags<cr>",
 			desc = require("package.keymaps").desc("Obsidian: vault tags"),
 		},
+		{
+			"<leader>op",
+			"<cmd>Obsidian new_from_template<cr>",
+			desc = require("package.keymaps").desc("Obsidian: new note from preset"),
+		},
 	},
 	dependencies = { "nvim-lua/plenary.nvim" },
 	opts = {
@@ -38,7 +43,12 @@ return {
 		footer = { enabled = false },
 		statusline = { enabled = false },
 		frontmatter = { enabled = false },
-		templates = { enabled = false },
+		templates = {
+			enabled = true,
+			folder = "templates",
+			date_format = "%Y-%m-%d",
+			time_format = "%H:%M",
+		},
 		daily_notes = { enabled = false },
 		unique_note = { enabled = false },
 		checkbox = { enabled = false },
