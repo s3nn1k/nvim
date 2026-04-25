@@ -59,7 +59,7 @@ return {
 		completion = {
 			nvim_cmp = true,
 			blink = false,
-			create_new = false,
+			create_new = true,
 		},
 
 		picker = { name = nil },
