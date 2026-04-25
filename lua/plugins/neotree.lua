@@ -41,7 +41,7 @@ return {
 			},
 
 			window = {
-				position = "right",
+				position = "left",
 				auto_resize = false,
 				float_opts = {
 					border = "single",
