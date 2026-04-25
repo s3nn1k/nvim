@@ -70,4 +70,10 @@ map.set("n", "<S-Tab>", bufs.safe_buffer_switch("previous"), opts("Previous buff
 -- go to [d]efinition or go to file using one hotkey
 map.set("n", "<leader>d", smart_goto.smart_goto, opts("Smart goto"))
 
+-- toggle word wrap
+map.set("n", "<leader>tw", function()
+	vim.opt.wrap = not vim.opt.wrap:get()
+	print("Wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
+end, opts("Toggle word wrap"))
+
 -- plugin-specified mappings listed in the same named .lua files

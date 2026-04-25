@@ -33,8 +33,8 @@ return {
 				mappings = {
 					i = {
 						["<esc>"] = actions.close,
-						["<Tab>"] = actions.move_selection_next,
-						["<S-Tab>"] = actions.move_selection_previous,
+						["<Down>"] = actions.move_selection_next,
+						["<Up>"] = actions.move_selection_previous,
 						["<CR>"] = actions.select_default,
 						["<C-k>"] = actions.preview_scrolling_up,
 						["<C-j>"] = actions.preview_scrolling_down,
@@ -46,8 +46,8 @@ return {
 						-- disabled
 						["<C-n>"] = false,
 						["<C-p>"] = false,
-						["<Down>"] = false,
-						["<Up>"] = false,
+						["<Tab>"] = false,
+						["<S-Tab>"] = false,
 						["j"] = false,
 						["k"] = false,
 						["H"] = false,
