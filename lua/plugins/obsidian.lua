@@ -31,7 +31,7 @@ return {
 
 		-- Collisions: existing file is opened (not overwritten); body is preserved.
 		note_id_func = function(title)
-			return title or os.date("%Y-%m-%d-%H%M%S")
+			return title or os.date("%Y-%m-%d-%H:%M:%S")
 		end,
 		note_path_func = function(spec)
 			return (spec.dir / tostring(spec.id)):with_suffix(".md")
