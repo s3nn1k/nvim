@@ -26,6 +26,7 @@ return {
 			"sql",
 			"toml",
 			"json",
+			"xml",
 		}
 
 		local already_installed = require("nvim-treesitter.config").get_installed()
