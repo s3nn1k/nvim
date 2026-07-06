@@ -5,13 +5,13 @@ return {
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				go = { "goimports", "injected" }, -- injected для sql форматтирования внутри go кода
+				go = { "goimports", "injected" },
 				javascript = { "prettier" },
 				javascriptreact = { "prettier" },
 				typescript = { "prettier" },
 				typescriptreact = { "prettier" },
 				json = { "prettier" },
-				markdown = { "prettier" },
+				markdown = { "prettier", "injected" },
 				yaml = { "prettier" },
 				yml = { "prettier" },
 				toml = { "taplo" },
