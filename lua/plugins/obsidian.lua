@@ -77,12 +77,6 @@ return {
 		comment = { enabled = false },
 		sync = { enabled = false },
 
-		completion = {
-			nvim_cmp = true,
-			blink = false,
-			create_new = true,
-		},
-
 		picker = { name = nil },
 		callbacks = {},
 		link = { auto_update = false },
