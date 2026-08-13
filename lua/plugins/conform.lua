@@ -35,6 +35,7 @@ return {
 					options = {
 						ignore_errors = false,
 						lang_to_ext = { sql = "sql" },
+						lang_to_formatters = { go = { "gofmt" } },
 					},
 				},
 			},
