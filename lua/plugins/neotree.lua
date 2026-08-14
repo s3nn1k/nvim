@@ -83,8 +83,9 @@ return {
 
 			filesystem = {
 				filtered_items = {
+					visible = true, -- show filtered (gitignored, etc.) dimmed instead of hiding
+					hide_gitignored = true, -- must be true so mark_gitignored runs and dims them
 					hide_dotfiles = false,
-					hide_gitignored = false,
 					hide_hidden = false, -- only works on Windows for hidden files/directories
 
 					always_show_by_pattern = {
@@ -92,8 +93,8 @@ return {
 						".gitignore*",
 					},
 
-					hide_by_name = {
-						".git",
+					never_show = {
+						".git", -- overrides `visible`, so .git stays fully hidden
 					},
 				},
 
