@@ -52,9 +52,9 @@ log "LSP (brew)..."
 brew_ensure lua-language-server
 
 log "LSP (npm)..."
+# typescript: с 7.x LSP встроен в сам пакет (tsc --lsp --stdio), обёртка не нужна
 NPM="$(brew --prefix node)/bin/npm"
 "$NPM" install -g \
-    typescript-language-server \
     typescript \
     pyright \
     @mistweaverco/kulala-ls
