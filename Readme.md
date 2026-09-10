@@ -31,7 +31,7 @@
 - gopls
 - kulala-ls
 - pyright
-- typescript-language-server
+- typescript (нативный LSP: `tsc --lsp --stdio`)
 
 4. Форматтеры:
 

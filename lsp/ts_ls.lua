@@ -1,29 +1,9 @@
 return {
-	cmd = { "typescript-language-server", "--stdio" },
+	cmd = { "tsc", "--lsp", "--stdio" },
 	filetypes = {
 		"javascript",
 		"javascriptreact",
 		"typescript",
 		"typescriptreact",
-	},
-	settings = {
-		typescript = {
-			inlayHints = {
-				includeInlayParameterNameHints = "all",
-				includeInlayFunctionParameterTypeHints = true,
-				includeInlayVariableTypeHints = true,
-				includeInlayPropertyDeclarationTypeHints = true,
-				includeInlayFunctionLikeReturnTypeHints = true,
-			},
-		},
-		javascript = {
-			inlayHints = {
-				includeInlayParameterNameHints = "all",
-				includeInlayFunctionParameterTypeHints = true,
-				includeInlayVariableTypeHints = true,
-				includeInlayPropertyDeclarationTypeHints = true,
-				includeInlayFunctionLikeReturnTypeHints = true,
-			},
-		},
 	},
 }
