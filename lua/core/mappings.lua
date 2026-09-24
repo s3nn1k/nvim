@@ -72,8 +72,9 @@ map.set("n", "<leader>d", smart_goto.smart_goto, opts("Smart goto"))
 
 -- toggle word wrap
 map.set("n", "<leader>tw", function()
-	vim.opt.wrap = not vim.opt.wrap:get()
-	print("Wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
+	local wrap = not vim.o.wrap
+	vim.o.wrap = wrap
+	print("Wrap: " .. (wrap and "ON" or "OFF"))
 end, opts("Toggle word wrap"))
 
 -- plugin-specified mappings listed in the same named .lua files

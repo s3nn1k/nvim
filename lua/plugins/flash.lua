@@ -3,13 +3,7 @@ local km = require("package.keymaps")
 return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
-	opts = {
-		modes = {
-			char = {
-				enabled = false,
-			},
-		},
-	},
+	opts = {},
 	keys = {
 		{
 			"s",
