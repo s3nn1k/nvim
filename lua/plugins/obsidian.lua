@@ -20,7 +20,7 @@ return {
 			desc = require("package.keymaps").desc("Obsidian: new note from preset"),
 		},
 	},
-	dependencies = { "nvim-lua/plenary.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 	opts = {
 		workspaces = {
 			{ name = "main", path = "~/vaults/main" },
@@ -77,7 +77,7 @@ return {
 		comment = { enabled = false },
 		sync = { enabled = false },
 
-		picker = { name = nil },
+		picker = { name = "telescope" },
 		callbacks = {},
 		link = { auto_update = false },
 	},
