@@ -1,6 +1,6 @@
 return {
 	"lewis6991/gitsigns.nvim",
-	event = "BufReadPre",
+	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		local km = require("package.keymaps")
 		local base_opts = { noremap = true, silent = true }

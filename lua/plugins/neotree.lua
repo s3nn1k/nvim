@@ -18,6 +18,14 @@ return {
 			desc = require("package.keymaps").desc("Toggle git status tree"),
 		},
 	},
+	init = function()
+		if vim.fn.argc() > 0 then
+			local stat = (vim.uv or vim.loop).fs_stat(vim.fn.argv(0))
+			if stat and stat.type == "directory" then
+				vim.cmd("Neotree filesystem toggle reveal " .. vim.fn.fnameescape(vim.fn.argv(0)))
+			end
+		end
+	end,
 	config = function()
 		require("neo-tree").setup({
 			popup_border_style = "single",
