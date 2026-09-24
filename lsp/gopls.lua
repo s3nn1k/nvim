@@ -9,7 +9,7 @@ return {
 				unusedvariable = true,
 				shadow = true,
 			},
+			staticcheck = true,
 		},
-		staticcheck = true,
 	},
 }
