@@ -22,7 +22,7 @@ return {
 		if vim.fn.argc() > 0 then
 			local stat = (vim.uv or vim.loop).fs_stat(vim.fn.argv(0))
 			if stat and stat.type == "directory" then
-				vim.cmd("Neotree filesystem toggle reveal " .. vim.fn.fnameescape(vim.fn.argv(0)))
+				require("lazy").load({ plugins = { "neo-tree.nvim" } })
 			end
 		end
 	end,
