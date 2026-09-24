@@ -44,5 +44,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map.set("n", "<leader>i", builtin.lsp_implementations, opts("Implementations"))
 		map.set("n", "<leader>la", buf.code_action, opts("Code action"))
 		map.set("n", "<leader>ld", buf.type_definition, opts("Type definition"))
+		map.set("n", "<leader>ls", buf.signature_help, opts("LSP signature help"))
 	end,
 })
