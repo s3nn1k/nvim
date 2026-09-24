@@ -34,24 +34,11 @@ local function apply_highlights(highlights)
 end
 
 local function zenwritten_dark_fix()
-	local terminal_bg = "#14191f"
-	local surface = "#1e242c"
 	local float_bg = "#26282d"
 	local prompt_bg = "#34373d"
 	local border_fg = "#7c7f85"
 	local fg_dim = "#b8bbb2"
 	apply_highlights({
-		Normal = { bg = terminal_bg },
-		NormalNC = { link = "Normal" },
-		MsgArea = { link = "Normal" },
-		EndOfBuffer = { bg = terminal_bg },
-		LineNr = { bg = terminal_bg },
-		SignColumn = { bg = terminal_bg },
-		FoldColumn = { bg = terminal_bg },
-		Folded = { bg = surface },
-		CursorLine = { bg = surface },
-		CursorColumn = { link = "CursorLine" },
-		ColorColumn = { link = "CursorLine" },
 		NormalFloat = { fg = fg_dim, bg = float_bg },
 		FloatBorder = { fg = border_fg, bg = float_bg },
 		TelescopeTitle = { fg = fg_dim, bold = true },
