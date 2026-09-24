@@ -24,8 +24,8 @@ Neovim.
   - brew: stylua, taplo, black
   - npm: prettier, sql-formatter
   - go install: goimports
-- Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится вручную:
-  https://www.nerdfonts.com/
+- Hack Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится из
+  ~/dotfiles (Brewfile), там же шрифт профиля iTerm2 (DynamicProfiles)
 
 # Правила добавления плагинов
 
