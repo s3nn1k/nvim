@@ -32,7 +32,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 		local buf = vim.lsp.buf
 		local map = vim.keymap
-		local builtin = require("telescope.builtin")
 
 		map.set("n", "<leader>k", function()
 			buf.hover({ border = "single" })
@@ -40,8 +39,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		map.set("n", "<leader>h", vim.diagnostic.open_float, opts("Line diagnostics"))
 		map.set("n", "<leader>R", buf.rename, opts("Rename symbol"))
-		map.set("n", "<leader>r", builtin.lsp_references, opts("References"))
-		map.set("n", "<leader>i", builtin.lsp_implementations, opts("Implementations"))
+		map.set("n", "<leader>r", function()
+			require("telescope.builtin").lsp_references()
+		end, opts("References"))
+		map.set("n", "<leader>i", function()
+			require("telescope.builtin").lsp_implementations()
+		end, opts("Implementations"))
 		map.set("n", "<leader>la", buf.code_action, opts("Code action"))
 		map.set("n", "<leader>ld", buf.type_definition, opts("Type definition"))
 		map.set("n", "<leader>ls", buf.signature_help, opts("LSP signature help"))

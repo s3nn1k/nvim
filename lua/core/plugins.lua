@@ -34,7 +34,6 @@ require("lazy").setup({
 				"getscriptPlugin",
 				"logipat",
 				"rrhelper",
-				"matchit",
 			},
 		},
 	},
