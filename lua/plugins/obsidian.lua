@@ -77,7 +77,7 @@ return {
 		comment = { enabled = false },
 		sync = { enabled = false },
 
-		picker = { name = "telescope" },
+		picker = { name = "telescope.nvim" },
 		callbacks = {},
 		link = { auto_update = false },
 	},
