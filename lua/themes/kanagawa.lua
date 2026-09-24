@@ -45,6 +45,8 @@ return {
 			end,
 		})
 
-		vim.cmd("colorscheme kanagawa-wave")
+		if require("themes").active_name() == "kanagawa-wave" then
+			vim.cmd("colorscheme kanagawa-wave")
+		end
 	end,
 }
