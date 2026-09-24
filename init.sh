@@ -4,10 +4,12 @@ set -e
 log() { echo ""; echo "==> $*"; }
 
 brew_ensure() {
-    if brew list "$1" &>/dev/null; then
-        brew upgrade "$1" 2>/dev/null && echo "  updated: $1" || echo "  up to date: $1"
+    local cask_opts=()
+    [[ "$2" == "cask" ]] && cask_opts=(--cask)
+    if brew list "${cask_opts[@]}" "$1" &>/dev/null; then
+        brew upgrade "${cask_opts[@]}" "$1" 2>/dev/null && echo "  updated: $1" || echo "  up to date: $1"
     else
-        brew install "$1" && echo "  installed: $1"
+        brew install "${cask_opts[@]}" "$1" && echo "  installed: $1"
     fi
 }
 
@@ -74,6 +76,27 @@ log "Форматтеры (npm)..."
 
 log "Форматтеры (go)..."
 go install golang.org/x/tools/cmd/goimports@latest
+
+# ── Шрифты ──────────────────────────────────────────────────────────────────
+
+log "Шрифты..."
+brew_ensure font-hack-nerd-font cask
+
+# ── iTerm2 ──────────────────────────────────────────────────────────────────
+
+# шрифт профиля по умолчанию; размер текущего шрифта сохраняется
+ITERM_PLIST="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
+if [[ -f "$ITERM_PLIST" ]]; then
+    SIZE=$(/usr/libexec/PlistBuddy -c "Print :'New Bookmarks':0:'Normal Font'" "$ITERM_PLIST" 2>/dev/null | awk '{print $NF}')
+    SIZE="${SIZE:-12}"
+    if /usr/libexec/PlistBuddy -c "Set :'New Bookmarks':0:'Normal Font' 'HackNerdFont-Regular ${SIZE}'" "$ITERM_PLIST" 2>/dev/null; then
+        echo "  шрифт профиля: Hack Nerd Font (${SIZE}); перезапусти iTerm2 полностью (Cmd+Q)"
+    else
+        echo "  профиль по умолчанию не найден - пропускаю"
+    fi
+else
+    echo "  iTerm2 не найден - пропускаю"
+fi
 
 # ────────────────────────────────────────────────────────────────────────────
 
