@@ -12,6 +12,9 @@ return {
 		local cmp = require("cmp")
 
 		cmp.setup({
+			window = {
+				documentation = cmp.config.window.bordered({ border = "single" }),
+			},
 			snippet = {
 				expand = function(args)
 					require("luasnip").lsp_expand(args.body)

@@ -22,9 +22,6 @@ opt.linebreak = true
 -- use system clipboard
 opt.clipboard = "unnamedplus"
 
--- nerd font on
-g.have_herd_font = true
-
 -- autoindent
 opt.autoindent = true
 opt.smartindent = true
@@ -37,6 +34,7 @@ opt.smartcase = true
 opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
+opt.expandtab = true
 
 -- minimal lines and columns to keep on scroll
 opt.scrolloff = 4

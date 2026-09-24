@@ -5,17 +5,28 @@ return {
 		"nvim-tree/nvim-web-devicons",
 		"MunifTanjim/nui.nvim",
 	},
-	config = function()
-		local map = vim.keymap
-		local km = require("package.keymaps")
-		local base_opts = { noremap = true, silent = true }
-		local function opts(desc, extra)
-			return km.opts(base_opts, desc, extra)
+	cmd = "Neotree",
+	keys = {
+		{
+			"<leader>te",
+			"<cmd>Neotree filesystem toggle reveal<CR>",
+			desc = require("package.keymaps").desc("Toggle file tree"),
+		},
+		{
+			"<leader>tg",
+			"<cmd>Neotree git_status toggle reveal<CR>",
+			desc = require("package.keymaps").desc("Toggle git status tree"),
+		},
+	},
+	init = function()
+		if vim.fn.argc() > 0 then
+			local stat = (vim.uv or vim.loop).fs_stat(vim.fn.argv(0))
+			if stat and stat.type == "directory" then
+				require("lazy").load({ plugins = { "neo-tree.nvim" } })
+			end
 		end
-
-		map.set("n", "<leader>te", "<cmd> Neotree filesystem toggle reveal <CR>", opts("Toggle file tree"))
-		map.set("n", "<leader>tg", "<cmd> Neotree git_status toggle reveal <CR>", opts("Toggle git status tree"))
-
+	end,
+	config = function()
 		require("neo-tree").setup({
 			popup_border_style = "single",
 			default_component_configs = {
