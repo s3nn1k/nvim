@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- Theme
-	require("themes.kanagawa"),
+	require("themes").spec,
 
 	-- Plugins
 	{ { import = "plugins" } },
