@@ -76,7 +76,11 @@ return {
 				local confirmed = false
 				local function preview_selection(prompt_bufnr, direction)
 					return function()
-						actions.move_selection(prompt_bufnr, direction)
+						if direction > 0 then
+							actions.move_selection_next(prompt_bufnr)
+						else
+							actions.move_selection_previous(prompt_bufnr)
+						end
 						local entry = action_state.get_selected_entry()
 						if entry then
 							vim.cmd("colorscheme " .. entry.value)
