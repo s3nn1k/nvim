@@ -43,10 +43,6 @@
     "branch": "main",
     "commit": "5f0f270fdc7c5b0c21d903ee85b9cb06f2ac636a"
   },
-  "gitlab.nvim": {
-    "branch": "develop",
-    "commit": "0af8e71fd508fe755ee9a7c9dba6d709b17a8842"
-  },
   "gitlinker.nvim": {
     "branch": "master",
     "commit": "a1b74070bbd5e50128190c85b09f1431ea5fbd83"
