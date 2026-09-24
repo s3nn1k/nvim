@@ -47,6 +47,7 @@ opt.undofile = true
 
 -- colors
 opt.termguicolors = true
+opt.fillchars = { eob = " " }
 
 -- hide all under statusline
 opt.showmode = false
