@@ -82,6 +82,7 @@ return {
 			{ "<leader>t", group = "toggle" },
 			{ "<leader>c", group = "close" },
 			{ "<leader>x", group = "http" },
+			{ "<leader>o", group = "obsidian" },
 		})
 	end,
 }

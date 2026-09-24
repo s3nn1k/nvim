@@ -3,7 +3,6 @@ return {
 	ft = { "http", "rest" },
 	opts = {
 		global_keymaps = false,
-		global_keymaps_prefix = "",
 	},
 	keys = {
 		{
