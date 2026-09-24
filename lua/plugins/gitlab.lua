@@ -89,13 +89,6 @@ return {
 			desc = require("package.keymaps").desc("GitLab: choose MR for review"),
 		},
 		{
-			"<leader>gR",
-			function()
-				require("gitlab").review()
-			end,
-			desc = require("package.keymaps").desc("GitLab: start review for current branch"),
-		},
-		{
 			"<leader>gS",
 			function()
 				require("gitlab").summary()
@@ -108,20 +101,6 @@ return {
 				require("gitlab").approve()
 			end,
 			desc = require("package.keymaps").desc("GitLab: approve MR"),
-		},
-		{
-			"<leader>gM",
-			function()
-				require("gitlab").merge()
-			end,
-			desc = require("package.keymaps").desc("GitLab: merge MR"),
-		},
-		{
-			"<leader>gp",
-			function()
-				require("gitlab").pipeline()
-			end,
-			desc = require("package.keymaps").desc("GitLab: pipeline status"),
 		},
 	},
 	opts = {
@@ -140,11 +119,45 @@ return {
 			return vault_token(host_from_url(os.getenv("GITLAB_URL")))
 		end,
 		keymaps = {
+			help = "g?",
 			global = {
 				disable_all = true,
 			},
+			popup = {
+				next_field = "<Tab>",
+				prev_field = "<S-Tab>",
+				perform_action = "ZZ",
+				perform_linewise_action = "ZA",
+				discard_changes = "ZQ",
+			},
 			discussion_tree = {
+				add_emoji = false,
+				delete_emoji = false,
+				delete_comment = "dd",
+				edit_comment = "e",
+				reply = "r",
+				toggle_resolved = "-",
+				jump_to_file = "o",
+				jump_to_reviewer = false,
+				open_in_browser = "b",
+				copy_node_url = false,
+				switch_view = "c",
+				toggle_tree_type = "i",
+				publish_draft = "P",
+				toggle_date_format = "dt",
+				toggle_draft_mode = "D",
+				toggle_sort_method = "st",
+				toggle_node = "t",
+				toggle_all_discussions = "T",
+				toggle_resolved_discussions = "R",
+				toggle_unresolved_discussions = "U",
+				refresh_data = "<C-R>",
 				print_node = false,
+			},
+			reviewer = {
+				create_comment = "c",
+				create_suggestion = "s",
+				move_to_discussion_tree = "a",
 			},
 		},
 	},
