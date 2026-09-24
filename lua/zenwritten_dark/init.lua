@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local lush = require("lush")
 local hsluv = lush.hsluv
 local util = require("zenbones.util")
