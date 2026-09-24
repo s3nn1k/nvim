@@ -13,7 +13,6 @@ return {
 				json = { "prettier" },
 				markdown = { "prettier_md", "injected" },
 				yaml = { "prettier" },
-				yml = { "prettier" },
 				toml = { "taplo" },
 				sql = { "sql_formatter" },
 				python = { "black" },

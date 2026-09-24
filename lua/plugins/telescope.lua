@@ -5,6 +5,65 @@ return {
 		"nvim-lua/plenary.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	},
+	keys = {
+		{
+			"<leader>ff",
+			function()
+				require("telescope.builtin").find_files({ cwd = vim.fs.root(0, { ".git" }) })
+			end,
+			desc = require("package.keymaps").desc("Find files (project root)"),
+		},
+		{
+			"<leader>fs",
+			function()
+				require("telescope.builtin").live_grep({ cwd = vim.fs.root(0, { ".git" }) })
+			end,
+			desc = require("package.keymaps").desc("Live grep (project root)"),
+		},
+		{
+			"<leader>fw",
+			mode = { "n", "v" },
+			function()
+				require("telescope.builtin").grep_string({ cwd = vim.fs.root(0, { ".git" }) })
+			end,
+			desc = require("package.keymaps").desc("Grep word (project root)"),
+		},
+		{
+			"<leader>gn",
+			function()
+				require("telescope.builtin").git_branches()
+			end,
+			desc = require("package.keymaps").desc("Git branches"),
+		},
+		{
+			"<leader>gc",
+			function()
+				require("telescope.builtin").git_commits()
+			end,
+			desc = require("package.keymaps").desc("Git commits"),
+		},
+		{
+			"<leader>fd",
+			function()
+				require("telescope.builtin").diagnostics()
+			end,
+			desc = require("package.keymaps").desc("Diagnostics"),
+		},
+		{
+			"<leader>fb",
+			function()
+				require("telescope.builtin").buffers()
+			end,
+			desc = require("package.keymaps").desc("Buffers"),
+		},
+		{
+			"<leader>jl",
+			function()
+				require("telescope.builtin").jumplist()
+			end,
+			desc = require("package.keymaps").desc("Jumplist"),
+		},
+	},
 	config = function()
 		local actions = require("telescope.actions")
 		local actions_set = require("telescope.actions.set")
@@ -79,59 +138,6 @@ return {
 			},
 		})
 
-		-- this function returns opts with cwd for current work directory
-		local function root_opts()
-			local function is_git_repo()
-				vim.fn.system("git rev-parse --is-inside-work-tree")
-				return vim.v.shell_error == 0
-			end
-
-			local function get_git_root()
-				local dot_git_path = vim.fn.finddir(".git", ".;")
-				return vim.fn.fnamemodify(dot_git_path, ":h")
-			end
-
-			local opts = {}
-
-			if is_git_repo() then
-				opts = {
-					cwd = get_git_root(),
-				}
-			end
-
-			return opts
-		end
-
 		require("telescope").load_extension("fzf")
-
-		local builtin = require("telescope.builtin")
-
-		local function find_files_from_project_root()
-			builtin.find_files(root_opts())
-		end
-
-		local function live_grep_from_project_root()
-			builtin.live_grep(root_opts())
-		end
-
-		local function grep_string_from_project_root()
-			builtin.grep_string(root_opts())
-		end
-
-		local map = vim.keymap
-		local km = require("package.keymaps")
-		local base_opts = { noremap = true, silent = true }
-		local function opts(desc, extra)
-			return km.opts(base_opts, desc, extra)
-		end
-
-		map.set("n", "<leader>ff", find_files_from_project_root, opts("Find files (project root)"))
-		map.set("n", "<leader>fs", live_grep_from_project_root, opts("Live grep (project root)"))
-		map.set({ "n", "v" }, "<leader>fw", grep_string_from_project_root, opts("Grep word (project root)"))
-		map.set("n", "<leader>gn", builtin.git_branches, opts("Git branches"))
-		map.set("n", "<leader>gc", builtin.git_commits, opts("Git commits"))
-		map.set("n", "<leader>fd", builtin.diagnostics, opts("Diagnostics"))
-		map.set("n", "<leader>fb", builtin.buffers, opts("Buffers"))
-		map.set("n", "<leader>jl", builtin.jumplist, opts("Jumplist"))
 	end,
 }
