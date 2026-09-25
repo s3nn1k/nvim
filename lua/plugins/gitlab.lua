@@ -78,7 +78,7 @@ return {
 				next_field = "<Tab>",
 				prev_field = "<S-Tab>",
 				perform_action = "ZZ",
-				perform_linewise_action = "ZA",
+				perform_linewise_action = false,
 				discard_changes = false,
 			},
 			discussion_tree = {
