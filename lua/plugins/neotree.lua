@@ -19,8 +19,9 @@ return {
 		},
 	},
 	init = function()
-		if vim.fn.argc() > 0 then
-			local stat = (vim.uv or vim.loop).fs_stat(vim.fn.argv(0))
+		local arg = vim.fn.argv(0)
+		if vim.fn.argc() > 0 and type(arg) == "string" then
+			local stat = (vim.uv or vim.loop).fs_stat(arg)
 			if stat and stat.type == "directory" then
 				require("lazy").load({ plugins = { "neo-tree.nvim" } })
 			end
