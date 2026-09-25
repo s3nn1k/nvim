@@ -45,7 +45,12 @@ function M.open()
 					local entry = action_state.get_selected_entry()
 					confirmed = true
 					actions.close(prompt_bufnr)
-					themes.switch(entry and entry.value or before)
+					local name = entry and entry.value or before
+					themes.switch(name)
+					local lualine_theme = themes.registry[name] and themes.registry[name].lualine
+					if lualine_theme then
+						require("lualine").setup({ options = { theme = lualine_theme } })
+					end
 				end)
 				return true
 			end,
