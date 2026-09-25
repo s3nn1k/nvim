@@ -35,7 +35,6 @@ function M.switch(name)
 		f:close()
 	end
 	vim.cmd("colorscheme " .. name)
-	require("lualine").setup({ options = { theme = M.registry[name].lualine } })
 end
 
 M.specs = {
