@@ -1,3 +1,5 @@
+local mappings = require("package.cmp_mappings")
+
 return {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
@@ -20,13 +22,7 @@ return {
 					require("luasnip").lsp_expand(args.body)
 				end,
 			},
-			mapping = cmp.mapping.preset.insert({
-				["<Tab>"] = cmp.mapping.select_next_item(),
-				["<S-Tab>"] = cmp.mapping.select_prev_item(),
-				["<C-k>"] = cmp.mapping.scroll_docs(-4),
-				["<C-j>"] = cmp.mapping.scroll_docs(4),
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-			}),
+			mapping = mappings.insert(cmp),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
