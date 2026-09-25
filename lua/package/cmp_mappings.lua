@@ -1,12 +1,12 @@
 local M = {}
 
-function M.insert(cmp)
+function M.insert(cmp, luasnip)
 	return cmp.mapping.preset.insert({
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif require("luasnip").expand_or_jumpable() then
-				require("luasnip").expand_or_jump()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
@@ -14,8 +14,8 @@ function M.insert(cmp)
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif require("luasnip").jumpable(-1) then
-				require("luasnip").jump(-1)
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
 			else
 				fallback()
 			end

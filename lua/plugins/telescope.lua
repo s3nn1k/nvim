@@ -66,7 +66,7 @@ return {
 		{
 			"<leader>ft",
 			function()
-				require("themes").pick()
+				require("themes.picker").open()
 			end,
 			desc = require("package.keymaps").desc("Pick theme"),
 		},

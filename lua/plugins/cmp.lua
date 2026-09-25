@@ -22,7 +22,7 @@ return {
 					require("luasnip").lsp_expand(args.body)
 				end,
 			},
-			mapping = mappings.insert(cmp),
+			mapping = mappings.insert(cmp, require("luasnip")),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
