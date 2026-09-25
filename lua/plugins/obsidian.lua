@@ -23,6 +23,9 @@ return {
 		},
 	},
 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+	init = function()
+		vim.g.obsidian_default_keymap = false
+	end,
 	opts = {
 		workspaces = {
 			{ name = "main", path = "~/vaults/main" },
@@ -62,7 +65,18 @@ return {
 		comment = { enabled = false },
 		sync = { enabled = false },
 
-		picker = { name = "telescope.nvim" },
+		picker = {
+			name = "telescope.nvim",
+			note_mappings = {
+				new = "<C-x>",
+				insert_link = "<C-l>",
+				bookmark = "<C-b>",
+			},
+			tag_mappings = {
+				tag_note = "<C-x>",
+				insert_tag = "<C-l>",
+			},
+		},
 		callbacks = {},
 		link = { auto_update = false },
 	},
