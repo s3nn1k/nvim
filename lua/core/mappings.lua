@@ -10,10 +10,10 @@ g.mapleader = " "
 g.maplocalleader = " "
 
 -- disable spacebar default behavior (for leader key)
-map.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true, desc = km.desc("Disable <Space> (leader)") })
+map.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- disable default hover
-map.set("n", "K", "<Nop>", { silent = true, desc = km.desc("Disable default hover") })
+map.set("n", "K", "<Nop>", { silent = true })
 
 -- default options
 local base_opts = { noremap = true, silent = true }
