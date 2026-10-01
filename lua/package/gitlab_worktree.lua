@@ -33,11 +33,12 @@ local function repo_identity()
 		return nil, err
 	end
 	local expanded = vim.fn.fnamemodify(vim.trim(raw or ""), ":p")
-	local common_dir = expanded and vim.fs.realpath(expanded) or nil
+	local common_dir, realpath_err = vim.uv.fs_realpath(expanded)
 	if not common_dir then
-		return nil, "rev-parse --git-common-dir: cannot resolve " .. vim.trim(raw or "")
+		return nil,
+			"rev-parse --git-common-dir: cannot resolve " .. vim.trim(raw or "") .. ": " .. tostring(realpath_err)
 	end
-	local main_root = vim.fs.dirname(common_dir:gsub("/$", ""))
+	local main_root = vim.fs.dirname(common_dir)
 	local prefix = string.format("%s-%s-mr", vim.fn.fnamemodify(main_root, ":t"), hash6(common_dir))
 	return { common_dir = common_dir, main_root = main_root, prefix = prefix }, nil
 end
@@ -60,10 +61,13 @@ end
 
 local function write_owner_marker(path)
 	local file = io.open(path .. "/" .. owner_file_name, "w")
-	if file then
-		file:write(tostring(vim.uv.getpid()))
-		file:close()
+	if not file then
+		notify_error("cannot write owner marker in " .. path)
+		return false
 	end
+	file:write(tostring(vim.uv.getpid()))
+	file:close()
+	return true
 end
 
 local function read_owner_pid(path)
@@ -167,7 +171,10 @@ function M.open(mr, opts)
 		notify_error(add_err)
 		return
 	end
-	write_owner_marker(path)
+	if not write_owner_marker(path) then
+		remove_managed(identity, path)
+		return
+	end
 
 	local prev_dir = vim.fn.getcwd() or path
 	vim.api.nvim_set_current_dir(path)
@@ -182,6 +189,9 @@ function M.close()
 	local owner_pid = read_owner_pid(active.path)
 	if owner_pid and owner_alive(active.path) and owner_pid ~= vim.uv.getpid() then
 		notify_error("review worktree in use by pid " .. owner_pid)
+		if not pcall(vim.api.nvim_set_current_dir, active.prev_dir) then
+			pcall(vim.api.nvim_set_current_dir, active.main_root)
+		end
 		active = nil
 		return
 	end

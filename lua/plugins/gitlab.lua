@@ -113,7 +113,9 @@ return {
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			group = group,
 			callback = function()
-				require("package.gitlab_worktree").sweep()
+				local worktree = require("package.gitlab_worktree")
+				worktree.close()
+				worktree.sweep()
 			end,
 		})
 	end,
