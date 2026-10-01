@@ -13,9 +13,10 @@ end
 local function run_git(args, cwd)
 	local result = vim.system(vim.list_extend({ "git" }, args), { cwd = cwd, text = true }):wait()
 	if result.code ~= 0 then
-		return nil, table.concat(args, " ") .. ": " .. vim.trim(result.stderr ~= "" and result.stderr or result.stdout)
+		local detail = vim.trim(result.stderr ~= "" and result.stderr or result.stdout or "")
+		return nil, table.concat(args, " ") .. ": " .. detail
 	end
-	return result.stdout, nil
+	return result.stdout or "", nil
 end
 
 local function hash6(text)
@@ -31,7 +32,11 @@ local function repo_identity()
 	if err then
 		return nil, err
 	end
-	local common_dir = vim.fs.realpath(vim.fn.fnamemodify(vim.trim(raw), ":p"))
+	local expanded = vim.fn.fnamemodify(vim.trim(raw or ""), ":p")
+	local common_dir = expanded and vim.fs.realpath(expanded) or nil
+	if not common_dir then
+		return nil, "rev-parse --git-common-dir: cannot resolve " .. vim.trim(raw or "")
+	end
 	local main_root = vim.fs.dirname(common_dir:gsub("/$", ""))
 	local prefix = string.format("%s-%s-mr", vim.fn.fnamemodify(main_root, ":t"), hash6(common_dir))
 	return { common_dir = common_dir, main_root = main_root, prefix = prefix }, nil
@@ -92,7 +97,7 @@ local function current_branch(root)
 	if err then
 		return nil, err
 	end
-	return vim.trim(output), nil
+	return vim.trim(output or ""), nil
 end
 
 local function branch_exists(root, branch)
@@ -122,7 +127,7 @@ function M.open(mr, opts)
 	end
 
 	local identity, err = repo_identity()
-	if err then
+	if not identity then
 		notify_error(err)
 		return
 	end
@@ -164,8 +169,8 @@ function M.open(mr, opts)
 	end
 	write_owner_marker(path)
 
-	local prev_dir = vim.fn.getcwd()
-	vim.cmd("cd " .. vim.fn.fnameescape(path))
+	local prev_dir = vim.fn.getcwd() or path
+	vim.api.nvim_set_current_dir(path)
 	opts.start_review(mr)
 	active = { path = path, prev_dir = prev_dir, main_root = identity.main_root }
 end
@@ -180,9 +185,9 @@ function M.close()
 		active = nil
 		return
 	end
-	local cd_ok = pcall(vim.cmd, "cd " .. vim.fn.fnameescape(active.prev_dir))
+	local cd_ok = pcall(vim.api.nvim_set_current_dir, active.prev_dir)
 	if not cd_ok then
-		pcall(vim.cmd, "cd " .. vim.fn.fnameescape(active.main_root))
+		pcall(vim.api.nvim_set_current_dir, active.main_root)
 	end
 	remove_managed({ main_root = active.main_root }, active.path)
 	active = nil
@@ -190,7 +195,7 @@ end
 
 function M.sweep()
 	local identity, err = repo_identity()
-	if err then
+	if not identity then
 		return
 	end
 	local pattern = "^" .. vim.pesc(identity.prefix) .. "%d+$"
