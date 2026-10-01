@@ -204,7 +204,7 @@ function M.close()
 end
 
 function M.sweep()
-	local identity, err = repo_identity()
+	local identity = repo_identity()
 	if not identity then
 		return
 	end
