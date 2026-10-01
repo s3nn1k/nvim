@@ -34,7 +34,7 @@ local function pick_and_review_in_worktree()
 				end,
 			})
 		end)
-	end)
+	end)()
 end
 
 return {
