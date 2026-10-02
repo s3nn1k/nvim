@@ -58,9 +58,15 @@ local function process_start(pid)
 end
 
 local function write_owner_file(path)
-	local file = io.open(owner_file(path), "w")
+	local owner_path = owner_file(path)
+	local owner_dir = vim.fs.dirname(owner_path)
+	if not pcall(vim.fn.mkdir, owner_dir, "p") then
+		notify_error("cannot create review cache root " .. owner_dir)
+		return false
+	end
+	local file = io.open(owner_path, "w")
 	if not file then
-		notify_error("cannot write owner file " .. owner_file(path))
+		notify_error("cannot write owner file " .. owner_path)
 		return false
 	end
 	local pid = vim.uv.getpid()
@@ -101,14 +107,16 @@ local function remove_managed(identity, path)
 		local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
 		if not ok then
 			remove_err = "cannot remove " .. path .. ": " .. tostring(rm_err)
+		else
+			remove_err = nil
 		end
 	end
 	run_git({ "worktree", "prune" }, identity.main_root)
 	pcall(vim.uv.fs_unlink, owner_file(path))
-	if remove_err == nil and vim.fn.isdirectory(path) == 1 then
-		return "cannot remove " .. path
+	if vim.fn.isdirectory(path) == 1 then
+		return remove_err or ("cannot remove " .. path)
 	end
-	return remove_err
+	return nil
 end
 
 local function current_branch(root)
