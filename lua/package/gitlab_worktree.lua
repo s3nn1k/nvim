@@ -53,10 +53,11 @@ local function remove_managed(identity, path)
 		local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
 		if not ok then
 			notify_error("cannot remove " .. path .. ": " .. tostring(rm_err))
-			return
+			return false
 		end
 	end
 	run_git({ "worktree", "prune" }, identity.main_root)
+	return vim.fn.isdirectory(path) == 0
 end
 
 local function write_owner_marker(path)
@@ -159,7 +160,10 @@ function M.open(mr, opts)
 			notify_error("review worktree in use by pid " .. owner_pid)
 			return
 		end
-		remove_managed(identity, path)
+		if not remove_managed(identity, path) then
+			notify_error("cannot remove stale review worktree " .. path)
+			return
+		end
 	end
 
 	if opts.close_review then
@@ -172,6 +176,12 @@ function M.open(mr, opts)
 		return
 	end
 	if not write_owner_marker(path) then
+		remove_managed(identity, path)
+		return
+	end
+	local _, verify_err = run_git({ "rev-parse", "--git-dir" }, path)
+	if verify_err then
+		notify_error("created worktree is broken: " .. verify_err)
 		remove_managed(identity, path)
 		return
 	end
