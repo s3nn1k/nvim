@@ -266,4 +266,39 @@ function M.sweep()
 	run_git({ "worktree", "prune" }, identity.main_root)
 end
 
+local function format_mr(mr)
+	return string.format("%s [%s -> %s] (%s)", mr.title, mr.source_branch, mr.target_branch, mr.author.name)
+end
+
+function M.pick_and_review(deps)
+	deps.sequence({ deps.state.dependencies.merge_requests }, function()
+		local merge_requests = deps.state.MERGE_REQUESTS or {}
+		if #merge_requests == 0 then
+			vim.notify("no open merge requests", vim.log.levels.WARN)
+			return
+		end
+		vim.ui.select(merge_requests, {
+			prompt = "Review MR in worktree:",
+			format_item = format_mr,
+		}, function(mr)
+			if not mr then
+				return
+			end
+			M.open(mr, {
+				close_review = function()
+					if deps.reviewer.is_open then
+						deps.gitlab.close_review()
+					end
+				end,
+				start_review = function(chosen)
+					deps.state.chosen_mr_iid = chosen.iid
+					deps.server.restart(function()
+						deps.gitlab.review()
+					end)
+				end,
+			})
+		end)
+	end)()
+end
+
 return M
