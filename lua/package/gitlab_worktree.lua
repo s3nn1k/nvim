@@ -4,8 +4,6 @@ local active = nil
 
 local notify_prefix = "gitlab worktree: "
 
-local owner_file_name = ".gitlab-worktree-owner"
-
 local function notify_error(message)
 	vim.notify(notify_prefix .. message, vim.log.levels.ERROR)
 end
@@ -47,54 +45,70 @@ local function managed_path(identity, mr_iid)
 	return vim.fs.normalize(vim.fn.stdpath("cache")) .. "/gitlab-review/" .. identity.prefix .. tostring(mr_iid)
 end
 
-local function remove_managed(identity, path)
-	local _, remove_err = run_git({ "worktree", "remove", "--force", path }, identity.main_root)
-	if remove_err then
-		local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
-		if not ok then
-			notify_error("cannot remove " .. path .. ": " .. tostring(rm_err))
-			return false
-		end
-	end
-	run_git({ "worktree", "prune" }, identity.main_root)
-	return vim.fn.isdirectory(path) == 0
+local function owner_file(path)
+	return path .. ".owner"
 end
 
-local function write_owner_marker(path)
-	local file = io.open(path .. "/" .. owner_file_name, "w")
+local function process_start(pid)
+	local result = vim.system({ "ps", "-o", "lstart=", "-p", tostring(pid) }, { text = true }):wait()
+	if result.code ~= 0 then
+		return nil
+	end
+	return vim.trim(result.stdout or "")
+end
+
+local function write_owner_file(path)
+	local file = io.open(owner_file(path), "w")
 	if not file then
-		notify_error("cannot write owner marker in " .. path)
+		notify_error("cannot write owner file " .. owner_file(path))
 		return false
 	end
-	file:write(tostring(vim.uv.getpid()))
+	local pid = vim.uv.getpid()
+	file:write(tostring(pid) .. "\n" .. (process_start(pid) or "") .. "\n")
 	file:close()
 	return true
 end
 
-local function read_owner_pid(path)
-	local file = io.open(path .. "/" .. owner_file_name, "r")
+local function read_owner(path)
+	local file = io.open(owner_file(path), "r")
 	if not file then
 		return nil
 	end
 	local pid = tonumber(file:read("*l"))
+	local start_time = vim.trim(file:read("*l") or "")
 	file:close()
-	return pid
+	return pid, start_time
 end
 
 local function owner_alive(path)
-	local pid = read_owner_pid(path)
+	local pid, start_time = read_owner(path)
 	if not pid then
 		return false
 	end
 	local signal, err = vim.uv.kill(pid, 0)
-	if signal then
-		return true
+	if not signal and not tostring(err):find("EPERM") then
+		return false
 	end
-	err = tostring(err)
-	if err:find("EPERM") then
-		return true
+	if start_time ~= "" and process_start(pid) ~= start_time then
+		return false
 	end
-	return false
+	return true
+end
+
+local function remove_managed(identity, path)
+	local _, remove_err = run_git({ "worktree", "remove", "--force", path }, identity.main_root)
+	if remove_err and vim.fn.isdirectory(path) == 1 then
+		local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
+		if not ok then
+			remove_err = "cannot remove " .. path .. ": " .. tostring(rm_err)
+		end
+	end
+	run_git({ "worktree", "prune" }, identity.main_root)
+	pcall(vim.uv.fs_unlink, owner_file(path))
+	if remove_err == nil and vim.fn.isdirectory(path) == 1 then
+		return "cannot remove " .. path
+	end
+	return remove_err
 end
 
 local function current_branch(root)
@@ -155,13 +169,14 @@ function M.open(mr, opts)
 
 	local path = managed_path(identity, mr.iid)
 	if vim.fn.isdirectory(path) == 1 then
-		local owner_pid = read_owner_pid(path)
+		local owner_pid = read_owner(path)
 		if owner_pid and owner_alive(path) and owner_pid ~= vim.uv.getpid() then
 			notify_error("review worktree in use by pid " .. owner_pid)
 			return
 		end
-		if not remove_managed(identity, path) then
-			notify_error("cannot remove stale review worktree " .. path)
+		local remove_err = remove_managed(identity, path)
+		if remove_err then
+			notify_error(remove_err)
 			return
 		end
 	end
@@ -170,12 +185,12 @@ function M.open(mr, opts)
 		opts.close_review()
 	end
 
+	if not write_owner_file(path) then
+		return
+	end
 	local add_err = worktree_add(identity, path, mr)
 	if add_err then
 		notify_error(add_err)
-		return
-	end
-	if not write_owner_marker(path) then
 		remove_managed(identity, path)
 		return
 	end
@@ -196,7 +211,7 @@ function M.close()
 	if not active then
 		return
 	end
-	local owner_pid = read_owner_pid(active.path)
+	local owner_pid = read_owner(active.path)
 	if owner_pid and owner_alive(active.path) and owner_pid ~= vim.uv.getpid() then
 		notify_error("review worktree in use by pid " .. owner_pid)
 		if not pcall(vim.api.nvim_set_current_dir, active.prev_dir) then
@@ -209,7 +224,10 @@ function M.close()
 	if not cd_ok then
 		pcall(vim.api.nvim_set_current_dir, active.main_root)
 	end
-	remove_managed({ main_root = active.main_root }, active.path)
+	local remove_err = remove_managed({ main_root = active.main_root }, active.path)
+	if remove_err then
+		notify_error(remove_err)
+	end
 	active = nil
 end
 
@@ -219,12 +237,21 @@ function M.sweep()
 		return
 	end
 	local pattern = "^" .. vim.pesc(identity.prefix) .. "%d+$"
+	local owner_pattern = "^" .. vim.pesc(identity.prefix) .. "(%d+)%.owner$"
 	local managed_root = vim.fs.normalize(vim.fn.stdpath("cache")) .. "/gitlab-review"
+	local cwd = vim.fs.normalize(vim.fn.getcwd()) .. "/"
 	for entry in vim.fs.dir(managed_root) do
+		local iid = entry:match(owner_pattern)
+		if iid and vim.fn.isdirectory(managed_root .. "/" .. identity.prefix .. iid) == 0 then
+			pcall(vim.uv.fs_unlink, managed_root .. "/" .. entry)
+		end
 		if entry:match(pattern) and vim.fn.isdirectory(managed_root .. "/" .. entry) == 1 then
 			local path = managed_root .. "/" .. entry
-			if not owner_alive(path) then
-				remove_managed(identity, path)
+			if cwd:sub(1, #path + 1) ~= path .. "/" and not owner_alive(path) then
+				local remove_err = remove_managed(identity, path)
+				if remove_err then
+					notify_error(remove_err)
+				end
 			end
 		end
 	end
