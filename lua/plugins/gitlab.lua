@@ -1,42 +1,5 @@
 local auth = require("package.gitlab_auth")
 
-local function format_mr(mr)
-	return string.format("%s [%s -> %s] (%s)", mr.title, mr.source_branch, mr.target_branch, mr.author.name)
-end
-
-local function pick_and_review_in_worktree()
-	local gitlab = require("gitlab")
-	local state = require("gitlab.state")
-	require("gitlab.async").sequence({ state.dependencies.merge_requests }, function()
-		local merge_requests = state.MERGE_REQUESTS or {}
-		if #merge_requests == 0 then
-			vim.notify("no open merge requests", vim.log.levels.WARN)
-			return
-		end
-		vim.ui.select(merge_requests, {
-			prompt = "Review MR in worktree:",
-			format_item = format_mr,
-		}, function(mr)
-			if not mr then
-				return
-			end
-			require("package.gitlab_worktree").open(mr, {
-				close_review = function()
-					if require("gitlab.reviewer").is_open then
-						gitlab.close_review()
-					end
-				end,
-				start_review = function(chosen)
-					state.chosen_mr_iid = chosen.iid
-					require("gitlab.server").restart(function()
-						gitlab.review()
-					end)
-				end,
-			})
-		end)
-	end)()
-end
-
 return {
 	"harrisoncramer/gitlab.nvim",
 	init = function()
@@ -99,7 +62,15 @@ return {
 		},
 		{
 			"glM",
-			pick_and_review_in_worktree,
+			function()
+				require("package.gitlab_worktree").pick_and_review({
+					sequence = require("gitlab.async").sequence,
+					gitlab = require("gitlab"),
+					state = require("gitlab.state"),
+					reviewer = require("gitlab.reviewer"),
+					server = require("gitlab.server"),
+				})
+			end,
 			desc = require("package.keymaps").desc("GitLab: review MR in worktree"),
 		},
 		{
