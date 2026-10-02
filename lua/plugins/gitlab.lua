@@ -39,6 +39,23 @@ end
 
 return {
 	"harrisoncramer/gitlab.nvim",
+	init = function()
+		local group = vim.api.nvim_create_augroup("GitlabWorktreeSweep", { clear = true })
+		vim.api.nvim_create_autocmd("VimEnter", {
+			group = group,
+			callback = function()
+				require("package.gitlab_worktree").sweep()
+			end,
+		})
+		vim.api.nvim_create_autocmd("VimLeavePre", {
+			group = group,
+			callback = function()
+				local worktree = require("package.gitlab_worktree")
+				worktree.close()
+				worktree.sweep()
+			end,
+		})
+	end,
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		"dlyongemallo/diffview-plus.nvim",
@@ -109,15 +126,6 @@ return {
 	},
 	config = function(_, opts)
 		require("gitlab").setup(opts)
-		local group = vim.api.nvim_create_augroup("GitlabWorktreeSweep", { clear = true })
-		vim.api.nvim_create_autocmd("VimLeavePre", {
-			group = group,
-			callback = function()
-				local worktree = require("package.gitlab_worktree")
-				worktree.close()
-				worktree.sweep()
-			end,
-		})
 	end,
 	opts = {
 		connection_settings = {
