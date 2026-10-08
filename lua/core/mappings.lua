@@ -67,6 +67,13 @@ map.set("n", "<leader>q", bufs.smart_close, opts("Close buffer"))
 map.set("n", "<Tab>", bufs.safe_buffer_switch("next"), opts("Next buffer"))
 map.set("n", "<S-Tab>", bufs.safe_buffer_switch("previous"), opts("Previous buffer"))
 
+map.set("n", "g<Tab>", function()
+	local last = vim.fn.tabpagenr("#")
+	if last > 0 then
+		vim.cmd("tabnext " .. last)
+	end
+end, opts("Go to last used tab"))
+
 -- go to [d]efinition or go to file using one hotkey
 map.set("n", "<leader>d", smart_goto.smart_goto, opts("Smart goto"))
 
