@@ -21,10 +21,23 @@ return {
 			"<cmd>Obsidian new_from_template<cr>",
 			desc = require("package.keymaps").desc("Obsidian: new note from preset"),
 		},
+		{
+			"<leader>ow",
+			"<cmd>ObsidianWorkspace<cr>",
+			desc = require("package.keymaps").desc("Obsidian: switch workspace"),
+		},
 	},
 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 	init = function()
 		vim.g.obsidian_default_keymap = false
+		-- активный workspace не виден в UI: уведомление при переключении
+		-- (new_from_template создаёт заметку в активном workspace)
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "ObsidianWorkpspaceSet", -- опечатка в паттерне самого плагина
+			callback = function(event)
+				vim.notify("Obsidian: " .. event.data.workspace.name)
+			end,
+		})
 	end,
 	opts = {
 		workspaces = {
