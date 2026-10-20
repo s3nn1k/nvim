@@ -23,7 +23,7 @@ return {
 		},
 		{
 			"<leader>ow",
-			"<cmd>ObsidianWorkspace<cr>",
+			"<cmd>Obsidian workspace<cr>",
 			desc = require("package.keymaps").desc("Obsidian: switch workspace"),
 		},
 	},
