@@ -28,7 +28,8 @@ return {
 	end,
 	opts = {
 		workspaces = {
-			{ name = "main", path = "~/vaults/main" },
+			{ name = "personal", path = "~/vaults/personal" },
+			{ name = "work", path = "~/vaults/work" },
 		},
 
 		notes_subdir = "inbox",
