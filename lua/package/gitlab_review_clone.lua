@@ -36,7 +36,7 @@ local function repo_identity()
 		return nil,
 			"rev-parse --git-common-dir: cannot resolve " .. vim.trim(raw or "") .. ": " .. tostring(realpath_err)
 	end
-	local main_root = vim.fs.dirname(common_dir)
+	local main_root = vim.fn.fnamemodify(common_dir, ":h")
 	local prefix = string.format("%s-%s-mr", vim.fn.fnamemodify(main_root, ":t"), hash6(common_dir))
 	return { main_root = main_root, prefix = prefix }, nil
 end
@@ -176,7 +176,7 @@ function M.open(mr, opts)
 		notify_error(remote_err)
 		return
 	end
-	local remote_url = vim.trim(raw_url)
+	local remote_url = vim.trim(raw_url or "")
 
 	local path = managed_path(identity, mr.iid)
 	if vim.fn.isdirectory(path) == 1 then
