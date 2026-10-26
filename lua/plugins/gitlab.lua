@@ -3,19 +3,19 @@ local auth = require("package.gitlab_auth")
 return {
 	"harrisoncramer/gitlab.nvim",
 	init = function()
-		local group = vim.api.nvim_create_augroup("GitlabWorktreeSweep", { clear = true })
+		local group = vim.api.nvim_create_augroup("GitlabReviewCloneSweep", { clear = true })
 		vim.api.nvim_create_autocmd("VimEnter", {
 			group = group,
 			callback = function()
-				require("package.gitlab_worktree").sweep()
+				require("package.gitlab_review_clone").sweep()
 			end,
 		})
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			group = group,
 			callback = function()
-				local worktree = require("package.gitlab_worktree")
-				worktree.close()
-				worktree.sweep()
+				local review_clone = require("package.gitlab_review_clone")
+				review_clone.close()
+				review_clone.sweep()
 			end,
 		})
 	end,
@@ -55,7 +55,7 @@ return {
 		{
 			"glQ",
 			function()
-				require("package.gitlab_worktree").close()
+				require("package.gitlab_review_clone").close()
 				require("gitlab").close_review()
 			end,
 			desc = require("package.keymaps").desc("GitLab: close MR review"),
@@ -63,7 +63,7 @@ return {
 		{
 			"glM",
 			function()
-				require("package.gitlab_worktree").pick_and_review({
+				require("package.gitlab_review_clone").pick_and_review({
 					sequence = require("gitlab.async").sequence,
 					gitlab = require("gitlab"),
 					state = require("gitlab.state"),
@@ -71,7 +71,7 @@ return {
 					server = require("gitlab.server"),
 				})
 			end,
-			desc = require("package.keymaps").desc("GitLab: review MR in worktree"),
+			desc = require("package.keymaps").desc("GitLab: review MR in review clone"),
 		},
 		{
 			"glr",

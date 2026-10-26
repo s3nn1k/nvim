@@ -2,7 +2,7 @@ local M = {}
 
 local active = nil
 
-local notify_prefix = "gitlab worktree: "
+local notify_prefix = "gitlab review clone: "
 
 local function notify_error(message)
 	vim.notify(notify_prefix .. message, vim.log.levels.ERROR)
@@ -38,7 +38,7 @@ local function repo_identity()
 	end
 	local main_root = vim.fs.dirname(common_dir)
 	local prefix = string.format("%s-%s-mr", vim.fn.fnamemodify(main_root, ":t"), hash6(common_dir))
-	return { common_dir = common_dir, main_root = main_root, prefix = prefix }, nil
+	return { main_root = main_root, prefix = prefix }, nil
 end
 
 local function managed_path(identity, mr_iid)
@@ -101,22 +101,23 @@ local function owner_alive(path)
 	return true
 end
 
-local function remove_managed(identity, path)
-	local _, remove_err = run_git({ "worktree", "remove", "--force", path }, identity.main_root)
-	if remove_err and vim.fn.isdirectory(path) == 1 then
-		local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
-		if not ok then
-			remove_err = "cannot remove " .. path .. ": " .. tostring(rm_err)
-		else
-			remove_err = nil
-		end
-	end
-	run_git({ "worktree", "prune" }, identity.main_root)
+local function remove_managed(path)
+	local ok, rm_err = pcall(vim.fs.rm, path, { recursive = true })
 	pcall(vim.uv.fs_unlink, owner_file(path))
-	if vim.fn.isdirectory(path) == 1 then
-		return remove_err or ("cannot remove " .. path)
+	if vim.fn.isdirectory(path) ~= 1 then
+		return nil
 	end
-	return nil
+	if ok then
+		return "cannot remove " .. path
+	end
+	return "cannot remove " .. path .. ": " .. tostring(rm_err)
+end
+
+local function remove_and_notify(path)
+	local remove_err = remove_managed(path)
+	if remove_err then
+		notify_error(remove_err)
+	end
 end
 
 local function current_branch(root)
@@ -127,9 +128,18 @@ local function current_branch(root)
 	return vim.trim(output or ""), nil
 end
 
-local function worktree_add(identity, path)
-	local _, err = run_git({ "worktree", "add", "--detach", path, "FETCH_HEAD" }, identity.main_root)
+local function clone(main_root, remote_url, path)
+	local _, err = run_git({ "clone", "--quiet", remote_url, path }, main_root)
 	return err
+end
+
+local function checkout_mr_head(path, mr)
+	local _, fetch_err = run_git({ "fetch", "--quiet", "origin", "refs/merge-requests/" .. mr.iid .. "/head" }, path)
+	if fetch_err then
+		return fetch_err
+	end
+	local _, checkout_err = run_git({ "checkout", "--quiet", "-B", mr.source_branch, "FETCH_HEAD" }, path)
+	return checkout_err
 end
 
 function M.open(mr, opts)
@@ -156,20 +166,21 @@ function M.open(mr, opts)
 		return
 	end
 
-	local _, fetch_err = run_git({ "fetch", "origin", "refs/merge-requests/" .. mr.iid .. "/head" }, identity.main_root)
-	if fetch_err then
-		notify_error(fetch_err)
+	local raw_url, remote_err = run_git({ "remote", "get-url", "origin" }, identity.main_root)
+	if remote_err then
+		notify_error(remote_err)
 		return
 	end
+	local remote_url = vim.trim(raw_url)
 
 	local path = managed_path(identity, mr.iid)
 	if vim.fn.isdirectory(path) == 1 then
 		local owner_pid = read_owner(path)
 		if owner_pid and owner_alive(path) and owner_pid ~= vim.uv.getpid() then
-			notify_error("review worktree in use by pid " .. owner_pid)
+			notify_error("review clone in use by pid " .. owner_pid)
 			return
 		end
-		local remove_err = remove_managed(identity, path)
+		local remove_err = remove_managed(path)
 		if remove_err then
 			notify_error(remove_err)
 			return
@@ -183,16 +194,22 @@ function M.open(mr, opts)
 	if not write_owner_file(path) then
 		return
 	end
-	local add_err = worktree_add(identity, path)
-	if add_err then
-		notify_error(add_err)
-		remove_managed(identity, path)
+	local clone_err = clone(identity.main_root, remote_url, path)
+	if clone_err then
+		notify_error(clone_err)
+		remove_and_notify(path)
+		return
+	end
+	local checkout_err = checkout_mr_head(path, mr)
+	if checkout_err then
+		notify_error(checkout_err)
+		remove_and_notify(path)
 		return
 	end
 	local _, verify_err = run_git({ "rev-parse", "--git-dir" }, path)
 	if verify_err then
-		notify_error("created worktree is broken: " .. verify_err)
-		remove_managed(identity, path)
+		notify_error("created review clone is broken: " .. verify_err)
+		remove_and_notify(path)
 		return
 	end
 
@@ -208,7 +225,7 @@ function M.close()
 	end
 	local owner_pid = read_owner(active.path)
 	if owner_pid and owner_alive(active.path) and owner_pid ~= vim.uv.getpid() then
-		notify_error("review worktree in use by pid " .. owner_pid)
+		notify_error("review clone in use by pid " .. owner_pid)
 		if not pcall(vim.api.nvim_set_current_dir, active.prev_dir) then
 			pcall(vim.api.nvim_set_current_dir, active.main_root)
 		end
@@ -219,7 +236,7 @@ function M.close()
 	if not cd_ok then
 		pcall(vim.api.nvim_set_current_dir, active.main_root)
 	end
-	local remove_err = remove_managed({ main_root = active.main_root }, active.path)
+	local remove_err = remove_managed(active.path)
 	if remove_err then
 		notify_error(remove_err)
 	end
@@ -243,14 +260,13 @@ function M.sweep()
 		if entry:match(pattern) and vim.fn.isdirectory(managed_root .. "/" .. entry) == 1 then
 			local path = managed_root .. "/" .. entry
 			if cwd:sub(1, #path + 1) ~= path .. "/" and not owner_alive(path) then
-				local remove_err = remove_managed(identity, path)
+				local remove_err = remove_managed(path)
 				if remove_err then
 					notify_error(remove_err)
 				end
 			end
 		end
 	end
-	run_git({ "worktree", "prune" }, identity.main_root)
 end
 
 local function format_mr(mr)
@@ -265,7 +281,7 @@ function M.pick_and_review(deps)
 			return
 		end
 		vim.ui.select(merge_requests, {
-			prompt = "Review MR in worktree:",
+			prompt = "Review MR in review clone:",
 			format_item = format_mr,
 		}, function(mr)
 			if not mr then
