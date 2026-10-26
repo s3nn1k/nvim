@@ -75,7 +75,27 @@ map.set("n", "g<Tab>", function()
 end, opts("Go to last used tab"))
 
 -- go to [d]efinition or go to file using one hotkey
-map.set("n", "<leader>d", smart_goto.smart_goto, opts("Smart goto"))
+map.set("n", "<leader>d", function()
+	smart_goto.smart_goto({
+		vault_root = function()
+			local ok, obsidian = pcall(require, "obsidian")
+			if not ok or type(obsidian.get_client) ~= "function" then
+				return nil
+			end
+			if not pcall(obsidian.get_client) then
+				return nil
+			end
+			if not Obsidian or not Obsidian.dir then
+				return nil
+			end
+			return tostring(Obsidian.dir)
+		end,
+		find_files = function(text, cwd)
+			require("lazy").load({ plugins = { "telescope.nvim" } })
+			require("telescope.builtin").find_files({ cwd = cwd, default_text = text })
+		end,
+	})
+end, opts("Smart goto"))
 
 -- toggle word wrap
 map.set("n", "<leader>tw", function()
