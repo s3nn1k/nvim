@@ -127,21 +127,8 @@ local function current_branch(root)
 	return vim.trim(output or ""), nil
 end
 
-local function branch_exists(root, branch)
-	local result = vim.system({ "git", "show-ref", "--verify", "--quiet", "refs/heads/" .. branch }, { cwd = root })
-		:wait()
-	return result.code == 0
-end
-
-local function worktree_add(identity, path, mr)
-	local branch = mr.source_branch
-	local args
-	if branch_exists(identity.main_root, branch) then
-		args = { "worktree", "add", path, branch }
-	else
-		args = { "worktree", "add", "-b", branch, path, "origin/" .. branch }
-	end
-	local _, err = run_git(args, identity.main_root)
+local function worktree_add(identity, path)
+	local _, err = run_git({ "worktree", "add", "--detach", path, "FETCH_HEAD" }, identity.main_root)
 	return err
 end
 
@@ -169,7 +156,7 @@ function M.open(mr, opts)
 		return
 	end
 
-	local _, fetch_err = run_git({ "fetch", "origin", mr.source_branch }, identity.main_root)
+	local _, fetch_err = run_git({ "fetch", "origin", "refs/merge-requests/" .. mr.iid .. "/head" }, identity.main_root)
 	if fetch_err then
 		notify_error(fetch_err)
 		return
@@ -196,7 +183,7 @@ function M.open(mr, opts)
 	if not write_owner_file(path) then
 		return
 	end
-	local add_err = worktree_add(identity, path, mr)
+	local add_err = worktree_add(identity, path)
 	if add_err then
 		notify_error(add_err)
 		remove_managed(identity, path)
