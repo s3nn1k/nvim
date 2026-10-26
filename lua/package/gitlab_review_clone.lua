@@ -134,11 +134,16 @@ local function clone(main_root, remote_url, path)
 end
 
 local function checkout_mr_head(path, mr)
+	local branch = mr.source_branch
 	local _, fetch_err = run_git({ "fetch", "--quiet", "origin", "refs/merge-requests/" .. mr.iid .. "/head" }, path)
 	if fetch_err then
 		return fetch_err
 	end
-	local _, checkout_err = run_git({ "checkout", "--quiet", "-B", mr.source_branch, "FETCH_HEAD" }, path)
+	local _, update_ref_err = run_git({ "update-ref", "refs/remotes/origin/" .. branch, "FETCH_HEAD" }, path)
+	if update_ref_err then
+		return update_ref_err
+	end
+	local _, checkout_err = run_git({ "checkout", "--quiet", "-B", branch, "origin/" .. branch }, path)
 	return checkout_err
 end
 
