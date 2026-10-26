@@ -12,6 +12,10 @@ return {
 				globals = {
 					"vim",
 					"require",
+					"Obsidian",
+				},
+				disable = {
+					"duplicate-set-field",
 				},
 			},
 			workspace = {
@@ -19,6 +23,8 @@ return {
 				library = {
 					vim.env.VIMRUNTIME,
 					"${3rd}/luv/library",
+					"${3rd}/busted",
+					"${3rd}/luassert",
 				},
 			},
 			telemetry = {
