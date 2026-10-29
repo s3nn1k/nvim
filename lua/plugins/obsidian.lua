@@ -18,7 +18,12 @@ return {
 		},
 		{
 			"<leader>op",
-			"<cmd>Obsidian new_from_template<cr>",
+			function()
+				local source_path = Obsidian.workspace.root
+				require("obsidian.actions").new_from_template(nil, nil, function(new_note)
+					new_note:open({ sync = true })
+				end, { source_path = source_path })
+			end,
 			desc = require("package.keymaps").desc("Obsidian: new note from preset"),
 		},
 		{
