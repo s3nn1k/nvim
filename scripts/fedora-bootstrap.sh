@@ -42,7 +42,7 @@ npm install --global --prefix "$HOME/.local" \
 # ── Форматтер (pipx) ────────────────────────────────────────────────────────
 
 log "pipx..."
-pipx install --force black
+pipx list --short 2>/dev/null | grep -q "^black " || pipx install black
 
 # ── LSP и форматтеры (go) ───────────────────────────────────────────────────
 
