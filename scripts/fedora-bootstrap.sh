@@ -47,8 +47,8 @@ pipx install --force black
 # ── LSP и форматтеры (go) ───────────────────────────────────────────────────
 
 log "go..."
-go install golang.org/x/tools/gopls@latest
-go install golang.org/x/tools/cmd/goimports@latest
+go install golang.org/x/tools/gopls@v0.23.0
+go install golang.org/x/tools/cmd/goimports@v0.52.0
 
 # ── lua-language-server (tarball) ───────────────────────────────────────────
 
