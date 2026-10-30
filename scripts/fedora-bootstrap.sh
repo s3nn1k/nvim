@@ -23,7 +23,7 @@ log() { echo ""; echo "==> $*"; }
 # ── Пакеты dnf ──────────────────────────────────────────────────────────────
 
 log "dnf..."
-sudo dnf install -y neovim gcc make ripgrep git tree-sitter-cli golang nodejs npm python3 pipx
+sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs npm python3 pipx
 
 # ── LSP и форматтеры (npm) ──────────────────────────────────────────────────
 
