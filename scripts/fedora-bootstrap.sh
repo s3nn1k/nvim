@@ -17,13 +17,14 @@ fi
 
 export PATH="$HOME/.local/bin:$PATH"
 export GOBIN="$HOME/.local/bin"
+export npm_config_nodedir=/usr/include/node
 
 log() { echo ""; echo "==> $*"; }
 
 # ── Пакеты dnf ──────────────────────────────────────────────────────────────
 
 log "dnf..."
-sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs npm python3 pipx
+sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs nodejs-devel npm python3 pipx
 
 # ── LSP и форматтеры (npm) ──────────────────────────────────────────────────
 
