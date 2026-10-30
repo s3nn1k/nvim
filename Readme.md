@@ -1,29 +1,35 @@
 # Neovim config
 
-Персональный конфиг Neovim, только macOS.
+Персональный конфиг Neovim.
 
 # Установка
 
-Клонировать репозиторий в `~/.config/nvim`, запустить `./init.sh`. После - открыть Neovim,
-плагины установятся автоматически.
+Клонировать репозиторий в `~/.config/nvim`, запустить `./init.sh` - определит платформу и
+позовёт нужный установщик из `scripts/`; то же самое руками - `make macos` или
+`make fedora`. После - открыть Neovim, плагины установятся автоматически.
 
-Обновление зависимостей и плагинов - тот же `./init.sh`, затем `:Lazy update` внутри
-Neovim.
+Обновление зависимостей и плагинов - тот же `./init.sh` (`make macos|fedora`), затем
+`:Lazy update` внутри Neovim.
 
 # Зависимости
 
-Всё, кроме шрифта, ставится через `./init.sh`.
+Всё, кроме шрифта, ставится установщиком; список синхронен со скриптом платформы в
+`scripts/`.
 
-- Утилиты (brew): gcc, make, ripgrep, git, tree-sitter-cli, neovim
-- Языки (brew): go, node, python, lua
-- LSP:
-  - brew: lua-language-server
-  - npm: typescript, pyright, @mistweaverco/kulala-ls
-  - go install: gopls
-- Форматтеры:
-  - brew: stylua, taplo, black
-  - npm: prettier, sql-formatter
-  - go install: goimports
+- macOS (`scripts/macos-bootstrap.sh`):
+  - Утилиты (brew): neovim, gcc, make, ripgrep, git, tree-sitter-cli
+  - Языки (brew): go, node, python, lua
+  - LSP: brew - lua-language-server; npm - typescript, pyright, @mistweaverco/kulala-ls;
+    go install - gopls
+  - Форматтеры: brew - stylua, taplo, black; npm - prettier, sql-formatter; go install -
+    goimports
+- Fedora (`scripts/fedora-bootstrap.sh`):
+  - Пакеты (dnf): neovim, gcc, make, ripgrep, git, tree-sitter-cli, golang, nodejs, npm,
+    python3, pipx
+  - LSP: npm - typescript, pyright, @mistweaverco/kulala-ls; go install - gopls; tarball с
+    github (пакета в Fedora нет) - lua-language-server
+  - Форматтеры: npm - prettier, sql-formatter, stylua, taplo; pipx - black; go install -
+    goimports
 - Hack Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится из
   ~/dotfiles (Brewfile), там же шрифт профиля iTerm2 (DynamicProfiles)
 
@@ -36,7 +42,8 @@ Neovim.
 3. Не добавляем плагины без поддержки: последний коммит автора старше 3 месяцев - не
    берём.
 4. Каждая внешняя зависимость (CLI, LSP, форматтер) прописывается в списке Зависимости и в
-   `init.sh` одновременно; установка (кроме шрифта) - только через `./init.sh`.
+   `scripts/<платформа>-bootstrap.sh` одновременно; установка (кроме шрифта) - только
+   через `./init.sh` (`make macos|fedora`).
 5. Ленивая загрузка: у каждого плагина свой триггер (event/keys/cmd/ft); плагинные хоткеи
    живут в keys-спеке, а не внутри config - иначе плагин грузится на старте.
 6. Все кастомные хоткеи через package/keymaps (desc с префиксом `cfg:`) - иначе мапа не
@@ -55,5 +62,5 @@ Neovim.
   зависимости передаются инъекцией из спеки.
 - Интеграции с плагинами живут в `lua/plugins/<plugin>.lua` (config/keys спеки) или
   отдельным файлом домена (образец - `lua/themes/picker.lua`).
-- `lua/core/` - wiring-слой: require плагинов допустим в ленивых замыканиях
-  (пример - telescope.builtin в LspAttach-маппингах).
+- `lua/core/` - wiring-слой: require плагинов допустим в ленивых замыканиях (пример -
+  telescope.builtin в LspAttach-маппингах).
