@@ -17,7 +17,7 @@ fi
 
 export PATH="$HOME/.local/bin:$PATH"
 export GOBIN="$HOME/.local/bin"
-export npm_config_nodedir=/usr/include/node
+export npm_config_nodedir=/usr
 
 log() { echo ""; echo "==> $*"; }
 
@@ -26,6 +26,7 @@ log() { echo ""; echo "==> $*"; }
 log "dnf..."
 sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs nodejs-devel npm python3 pipx
 
+[ -f /usr/include/node/node_api.h ] || { echo "нет заголовков node - нужен nodejs-devel" >&2; exit 1; }
 # ── LSP и форматтеры (npm) ──────────────────────────────────────────────────
 
 log "npm..."
