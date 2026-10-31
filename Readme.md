@@ -30,8 +30,9 @@
     github (пакета в Fedora нет) - lua-language-server
   - Форматтеры: npm - prettier, sql-formatter, stylua, taplo; pipx - black; go install -
     goimports
-- Hack Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится из
-  ~/dotfiles (Brewfile), там же шрифт профиля iTerm2 (DynamicProfiles)
+- Hack Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится
+  bootstrap'ом dotfiles-репозиториев (macOS - Brewfile dotfiles-mac, там же профиль iTerm2
+  DynamicProfiles)
 
 # Правила добавления плагинов
 
