@@ -17,7 +17,8 @@
 `scripts/`.
 
 - macOS (`scripts/macos-bootstrap.sh`):
-  - Утилиты (brew): neovim, gcc, make, ripgrep, git, tree-sitter-cli
+  - Утилиты (brew): neovim, gcc, make, ripgrep, git, tree-sitter-cli, libpq (psql для
+    sqlrun; keg-only - добавь $(brew --prefix libpq)/bin в PATH)
   - Языки (brew): go, node, python, lua
   - LSP: brew - lua-language-server; npm - typescript, pyright, @mistweaverco/kulala-ls;
     go install - gopls
@@ -25,7 +26,7 @@
     goimports
 - Fedora (`scripts/fedora-bootstrap.sh`):
   - Пакеты (dnf): neovim, gcc, make, ripgrep, git, tree-sitter-cli, golang, nodejs, npm,
-    python3, pipx
+    python3, pipx, postgresql (psql для sqlrun)
   - LSP: npm - typescript, pyright, @mistweaverco/kulala-ls; go install - gopls; tarball с
     github (пакета в Fedora нет) - lua-language-server
   - Форматтеры: npm - prettier, sql-formatter, stylua, taplo; pipx - black; go install -

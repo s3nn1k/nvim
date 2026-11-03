@@ -28,7 +28,7 @@ brew_ensure neovim
 # ── Утилиты ─────────────────────────────────────────────────────────────────
 
 log "Утилиты..."
-for pkg in gcc make ripgrep git tree-sitter-cli; do
+for pkg in gcc make ripgrep git tree-sitter-cli libpq; do
     brew_ensure "$pkg"
 done
 
