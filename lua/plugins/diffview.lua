@@ -21,12 +21,10 @@ return {
 				vim.notify("diffview: нет main/master для сравнения", vim.log.levels.WARN)
 				return
 			end
-			require("nrdr").set_diff_base(base .. "...HEAD")
 			vim.cmd(("DiffviewOpen %s...HEAD"):format(base))
 		end
 
 		vim.keymap.set("n", "<leader>go", function()
-			require("nrdr").set_diff_base("HEAD")
 			vim.cmd("DiffviewOpen")
 		end, {
 			desc = km.desc("Diffview: working tree vs HEAD"),
