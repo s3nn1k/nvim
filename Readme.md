@@ -34,6 +34,8 @@
 - Hack Nerd Font - обязателен (иконки web-devicons, диагностические знаки); ставится
   bootstrap'ом dotfiles-репозиториев (macOS - Brewfile dotfiles-mac, там же профиль iTerm2
   DynamicProfiles)
+- Neovim-плагины ставит lazy.nvim при первом старте (версии пинятся в `lazy-lock.json`);
+  персональный `s3nn1k/gitlab-extras.nvim` - auth и review-клон для gitlab.nvim
 
 # Правила добавления плагинов
 
@@ -60,9 +62,9 @@
 
 # Структура кода
 
-- `lua/package/` - чистые модули: stdlib + встроенный vim API; require плагинов запрещён,
-  зависимости передаются инъекцией из спеки.
-- Интеграции с плагинами живут в `lua/plugins/<plugin>.lua` (config/keys спеки) или
-  отдельным файлом домена (образец - `lua/themes/picker.lua`).
+- `lua/package/` - чистые модули (buffers, keymaps, smart_goto): stdlib + встроенный
+  vim API; require плагинов запрещён, зависимости передаются инъекцией из спеки.
+- Интеграции с плагинами живут в спеках `lua/plugins/<plugin>.lua` (config/keys); образец
+  доменного файла - `lua/themes/picker.lua`.
 - `lua/core/` - wiring-слой: require плагинов допустим в ленивых замыканиях (пример -
   telescope.builtin в LspAttach-маппингах).

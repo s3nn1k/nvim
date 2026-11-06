@@ -1,5 +1,3 @@
-local auth = require("package.gitlab_auth")
-
 return {
 	"harrisoncramer/gitlab.nvim",
 	init = function()
@@ -7,21 +5,20 @@ return {
 		vim.api.nvim_create_autocmd("VimEnter", {
 			group = group,
 			callback = function()
-				require("package.gitlab_review_clone").sweep()
+				require("gitlab-extras.review_clone").sweep()
 			end,
 		})
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			group = group,
 			callback = function()
-				local review_clone = require("package.gitlab_review_clone")
-				review_clone.close()
-				review_clone.sweep()
+				require("gitlab-extras.review_clone").close()
 			end,
 		})
 	end,
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		"dlyongemallo/diffview-plus.nvim",
+		"s3nn1k/gitlab-extras.nvim",
 	},
 	keys = {
 		{
@@ -55,7 +52,7 @@ return {
 		{
 			"glQ",
 			function()
-				require("package.gitlab_review_clone").close()
+				require("gitlab-extras.review_clone").close()
 				require("gitlab").close_review()
 			end,
 			desc = require("package.keymaps").desc("GitLab: close MR review"),
@@ -63,13 +60,7 @@ return {
 		{
 			"glM",
 			function()
-				require("package.gitlab_review_clone").pick_and_review({
-					sequence = require("gitlab.async").sequence,
-					gitlab = require("gitlab"),
-					state = require("gitlab.state"),
-					reviewer = require("gitlab.reviewer"),
-					server = require("gitlab.server"),
-				})
+				require("gitlab-extras.review_clone").pick_and_review()
 			end,
 			desc = require("package.keymaps").desc("GitLab: review MR in review clone"),
 		},
@@ -98,52 +89,55 @@ return {
 	config = function(_, opts)
 		require("gitlab").setup(opts)
 	end,
-	opts = {
-		connection_settings = {
-			remote = auth.remote_name,
-		},
-		auth_provider = auth.auth_provider,
-		keymaps = {
-			help = "g?",
-			global = {
-				disable_all = true,
+	opts = function()
+		local auth = require("gitlab-extras.auth")
+		return {
+			connection_settings = {
+				remote = auth.remote_name,
 			},
-			popup = {
-				next_field = "<Tab>",
-				prev_field = "<S-Tab>",
-				perform_action = "ZZ",
-				perform_linewise_action = "<Plug>(gitlab.linewise)",
-				discard_changes = false,
+			auth_provider = auth.auth_provider,
+			keymaps = {
+				help = "g?",
+				global = {
+					disable_all = true,
+				},
+				popup = {
+					next_field = "<Tab>",
+					prev_field = "<S-Tab>",
+					perform_action = "ZZ",
+					perform_linewise_action = "<Plug>(gitlab.linewise)",
+					discard_changes = false,
+				},
+				discussion_tree = {
+					switch_view = "c",
+					open_in_browser = "b",
+					toggle_resolved = "-",
+					reply = "r",
+					edit_comment = "e",
+					delete_comment = "dd",
+					toggle_node = "t",
+					toggle_all_discussions = "T",
+					jump_to_file = false,
+					toggle_tree_type = false,
+					refresh_data = false,
+					publish_draft = false,
+					print_node = false,
+					add_emoji = false,
+					delete_emoji = false,
+					copy_node_url = false,
+					jump_to_reviewer = false,
+					toggle_date_format = false,
+					toggle_draft_mode = false,
+					toggle_sort_method = false,
+					toggle_resolved_discussions = false,
+					toggle_unresolved_discussions = false,
+				},
+				reviewer = {
+					create_comment = "c",
+					move_to_discussion_tree = "a",
+					create_suggestion = false,
+				},
 			},
-			discussion_tree = {
-				switch_view = "c",
-				open_in_browser = "b",
-				toggle_resolved = "-",
-				reply = "r",
-				edit_comment = "e",
-				delete_comment = "dd",
-				toggle_node = "t",
-				toggle_all_discussions = "T",
-				jump_to_file = false,
-				toggle_tree_type = false,
-				refresh_data = false,
-				publish_draft = false,
-				print_node = false,
-				add_emoji = false,
-				delete_emoji = false,
-				copy_node_url = false,
-				jump_to_reviewer = false,
-				toggle_date_format = false,
-				toggle_draft_mode = false,
-				toggle_sort_method = false,
-				toggle_resolved_discussions = false,
-				toggle_unresolved_discussions = false,
-			},
-			reviewer = {
-				create_comment = "c",
-				move_to_discussion_tree = "a",
-				create_suggestion = false,
-			},
-		},
-	},
+		}
+	end,
 }
