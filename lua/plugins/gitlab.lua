@@ -20,7 +20,7 @@ return {
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		"dlyongemallo/diffview-plus.nvim",
-		{ "s3nn1k/gitlab-extras.nvim", dir = vim.fn.expand("~/projects/personal/gitlab-extras.nvim") },
+		"s3nn1k/gitlab-extras.nvim",
 	},
 	keys = {
 		{
