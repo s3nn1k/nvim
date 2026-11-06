@@ -52,8 +52,6 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 	init = function()
 		vim.g.obsidian_default_keymap = false
-		-- LspAttach-мапа (lsp.lua) при живом LSP-клиенте в markdown перезапишет эту -
-		-- осознанный приоритет definition над follow
 		vim.api.nvim_create_autocmd("FileType", {
 			group = vim.api.nvim_create_augroup("obsidian-leader-d", {}),
 			pattern = "markdown",
