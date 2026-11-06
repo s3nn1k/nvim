@@ -41,6 +41,12 @@ return {
 		local actions = require("diffview.config").actions
 
 		return {
+			hooks = {
+				diff_buf_read = function(bufnr, ctx)
+					vim.b[bufnr].diffview_symbol = ctx.symbol
+					vim.bo[bufnr].modifiable = false
+				end,
+			},
 			keymaps = {
 				view = {
 					{ "n", "<tab>", actions.select_next_entry, { desc = km.desc("Diffview: open next file") } },
