@@ -1,5 +1,5 @@
 return {
-	dir = vim.fn.expand("~/projects/personal/pi-remarks"),
+	"s3nn1k/pi-remarks",
 	dependencies = { "nvim-telescope/telescope.nvim" },
 	init = function()
 		local keymaps = require("package.keymaps")
