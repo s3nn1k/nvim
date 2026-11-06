@@ -88,11 +88,23 @@ return {
 				fzf = {},
 			},
 			defaults = {
+				layout_strategy = "flex",
 				layout_config = {
 					horizontal = {
-						height = 0.9,
-						width = 0.9,
+						height = 0.95,
+						width = 0.95,
 						preview_width = 0.4,
+						preview_cutoff = 80,
+					},
+					vertical = {
+						width = 0.95,
+						height = 0.95,
+						preview_height = 0.6,
+						preview_cutoff = 40,
+					},
+					flex = {
+						flip_columns = 90,
+						flip_lines = 20,
 					},
 				},
 				path_display = { "filename_first" },
