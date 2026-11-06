@@ -10,7 +10,7 @@ return {
 			desc = keymaps.desc("Add review remark for cursor line"),
 		})
 		vim.keymap.set("v", "<leader>hc", function()
-			require("nrdr").add_range(vim.fn.line("'<"), vim.fn.line("'>"))
+			require("nrdr").add_range(vim.fn.line("."), vim.fn.line("v"))
 		end, {
 			desc = keymaps.desc("Add review remark for selection"),
 		})
