@@ -4,6 +4,39 @@ return {
 	"dlyongemallo/diffview-plus.nvim",
 	main = "diffview",
 	lazy = true,
+	cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
+	init = function()
+		local km = require("package.keymaps")
+
+		local function open_branch_review()
+			local base
+			for _, candidate in ipairs({ "main", "master" }) do
+				vim.fn.system({ "git", "rev-parse", "--verify", "--quiet", candidate })
+				if vim.v.shell_error == 0 then
+					base = candidate
+					break
+				end
+			end
+			if not base then
+				vim.notify("diffview: нет main/master для сравнения", vim.log.levels.WARN)
+				return
+			end
+			vim.cmd(("DiffviewOpen %s...HEAD"):format(base))
+		end
+
+		vim.keymap.set("n", "<leader>go", "<cmd>DiffviewOpen<cr>", {
+			desc = km.desc("Diffview: working tree vs HEAD"),
+		})
+		vim.keymap.set("n", "<leader>gO", open_branch_review, {
+			desc = km.desc("Diffview: branch vs main/master"),
+		})
+		vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", {
+			desc = km.desc("Diffview: current file history"),
+		})
+		vim.keymap.set("n", "<leader>gq", "<cmd>DiffviewClose<cr>", {
+			desc = km.desc("Diffview: close"),
+		})
+	end,
 	opts = function()
 		local actions = require("diffview.config").actions
 
