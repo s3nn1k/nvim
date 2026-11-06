@@ -11,14 +11,16 @@ return {
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			group = group,
 			callback = function()
-				require("gitlab-extras.review_clone").close()
+				local review_clone = require("gitlab-extras.review_clone")
+				review_clone.close()
+				review_clone.sweep()
 			end,
 		})
 	end,
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		"dlyongemallo/diffview-plus.nvim",
-		"s3nn1k/gitlab-extras.nvim",
+		{ "s3nn1k/gitlab-extras.nvim", dir = vim.fn.expand("~/projects/personal/gitlab-extras.nvim") },
 	},
 	keys = {
 		{
