@@ -46,6 +46,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			require("telescope.builtin").lsp_implementations()
 		end, opts("Implementations"))
 		map.set("n", "<leader>la", buf.code_action, opts("Code action"))
+		map.set("n", "<leader>d", buf.definition, opts("Go to definition"))
 		map.set("n", "<leader>ld", buf.type_definition, opts("Type definition"))
 		map.set("n", "<leader>ls", buf.signature_help, opts("LSP signature help"))
 	end,

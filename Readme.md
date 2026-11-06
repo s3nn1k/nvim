@@ -62,7 +62,7 @@
 
 # Структура кода
 
-- `lua/package/` - чистые модули (buffers, keymaps, smart_goto): stdlib + встроенный
+- `lua/package/` - чистые модули (buffers, keymaps): stdlib + встроенный
   vim API; require плагинов запрещён, зависимости передаются инъекцией из спеки.
 - Интеграции с плагинами живут в спеках `lua/plugins/<plugin>.lua` (config/keys); образец
   доменного файла - `lua/themes/picker.lua`.

@@ -52,6 +52,19 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 	init = function()
 		vim.g.obsidian_default_keymap = false
+		-- LspAttach-мапа (lsp.lua) при живом LSP-клиенте в markdown перезапишет эту -
+		-- осознанный приоритет definition над follow
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("obsidian-leader-d", {}),
+			pattern = "markdown",
+			callback = function(ev)
+				vim.keymap.set("n", "<leader>d", "<cmd>Obsidian follow_link<cr>", {
+					buffer = ev.buf,
+					silent = true,
+					desc = require("package.keymaps").desc("Follow obsidian link"),
+				})
+			end,
+		})
 		-- активный workspace не виден в UI: уведомление при переключении
 		-- (new_from_template создаёт заметку в активном workspace)
 		vim.api.nvim_create_autocmd("User", {
