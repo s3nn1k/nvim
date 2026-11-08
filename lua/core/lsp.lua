@@ -1,4 +1,4 @@
-vim.lsp.enable({ "gopls", "lua_ls", "pyright_ls", "ts_ls", "kulala_ls" })
+vim.lsp.enable({ "gopls", "luals", "pyright", "tsc", "bashls" })
 
 vim.diagnostic.config({
 	signs = {
@@ -20,14 +20,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
 
-		local km = require("core.keys")
-		local function opts(desc)
-			return km.opts({ buffer = ev.buf, silent = true }, desc)
-		end
-		local map = vim.keymap.set
-
-		map("n", "<leader>k", vim.lsp.buf.hover, opts("LSP hover"))
-		map("n", "<leader>h", vim.diagnostic.open_float, opts("Line diagnostics"))
-		map("n", "<leader>la", vim.lsp.buf.code_action, opts("Code action"))
+		vim.keymap.set("n", "<leader>h", vim.diagnostic.open_float, {
+			buffer = ev.buf,
+			silent = true,
+			desc = "Line diagnostics",
+		})
 	end,
 })

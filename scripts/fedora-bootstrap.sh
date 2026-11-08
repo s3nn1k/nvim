@@ -24,7 +24,7 @@ log() { echo ""; echo "==> $*"; }
 # ── Пакеты dnf ──────────────────────────────────────────────────────────────
 
 log "dnf..."
-sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs nodejs-devel npm python3 pipx postgresql
+sudo dnf install -y neovim gcc gcc-c++ make ripgrep git tree-sitter-cli golang nodejs nodejs-devel npm python3 pipx postgresql ShellCheck
 
 [ -f /usr/include/node/node_api.h ] || { echo "нет заголовков node - нужен nodejs-devel" >&2; exit 1; }
 # ── LSP и форматтеры (npm) ──────────────────────────────────────────────────
@@ -33,7 +33,7 @@ log "npm..."
 npm install --global --prefix "$HOME/.local" \
     typescript@7.0.2 \
     pyright \
-    @mistweaverco/kulala-ls \
+    bash-language-server@5.8.1 \
     prettier \
     sql-formatter \
     @johnnymorganz/stylua-bin@2.6.0 \

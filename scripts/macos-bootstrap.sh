@@ -51,6 +51,7 @@ fi
 
 log "LSP (brew)..."
 brew_ensure lua-language-server
+brew_ensure shellcheck
 
 log "LSP (npm)..."
 # typescript: с 7.x LSP встроен в сам пакет (tsc --lsp --stdio), обёртка не нужна
@@ -58,7 +59,7 @@ NPM="$(brew --prefix node)/bin/npm"
 "$NPM" install -g \
     typescript \
     pyright \
-    @mistweaverco/kulala-ls
+    bash-language-server
 
 log "LSP (go)..."
 go install golang.org/x/tools/gopls@latest
