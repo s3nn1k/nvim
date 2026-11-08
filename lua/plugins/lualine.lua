@@ -33,8 +33,8 @@ return {
 				},
 				lualine_c = { { "filename", path = 0 } },
 				lualine_x = { "lsp_status", "encoding", "fileformat" },
-				lualine_y = { tab_position, "progress" },
-				lualine_z = { "location" },
+				lualine_y = { tab_position },
+				lualine_z = { "progress", "location" },
 			},
 		})
 
