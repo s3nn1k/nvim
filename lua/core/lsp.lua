@@ -10,6 +10,7 @@ vim.diagnostic.config({
 		},
 	},
 	virtual_text = false,
+	underline = false,
 })
 
 vim.keymap.set("n", "<leader>d", vim.diagnostic.setqflist, {
