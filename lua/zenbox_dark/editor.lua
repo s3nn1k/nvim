@@ -33,7 +33,7 @@ return {
 	PmenuThumb = { bg = palette.overlay0 },
 	PmenuBorder = { fg = palette.overlay1 },
 	WildMenu = { link = "PmenuSel" },
-	Directory = { fg = palette.blue, bold = true },
+	Directory = { fg = palette.fg, bold = true },
 	Title = { fg = palette.yellow, bold = true },
 	ErrorMsg = { fg = palette.red, bold = true },
 	WarningMsg = { fg = palette.yellow },
