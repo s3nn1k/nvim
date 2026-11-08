@@ -24,7 +24,7 @@ opt.sidescrolloff = 8
 
 opt.swapfile = false
 opt.undofile = true
-opt.foldlevelstart = 1
+opt.foldlevelstart = 3
 
 opt.termguicolors = true
 opt.fillchars = { eob = " " }
