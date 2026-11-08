@@ -33,8 +33,7 @@ return {
 				},
 				lualine_c = { { "filename", path = 0 } },
 				lualine_x = { "lsp_status", "encoding", "fileformat" },
-				lualine_y = { "progress" },
-				lualine_z = {
+				lualine_y = {
 					{
 						tab_position,
 						separator = { left = "│" },
@@ -42,8 +41,9 @@ return {
 							return vim.fn.tabpagenr("$") > 1
 						end,
 					},
-					"location",
+					"progress",
 				},
+				lualine_z = { "location" },
 			},
 		})
 
