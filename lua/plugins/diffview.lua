@@ -1,120 +1,114 @@
-return {
+local open_branch_review
+
+local spec = {
 	"dlyongemallo/diffview-plus.nvim",
 	main = "diffview",
 	cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
-	init = function()
-		local function open_branch_review()
-			local base
-			for _, candidate in ipairs({ "main", "master" }) do
-				vim.fn.system({ "git", "rev-parse", "--verify", "--quiet", candidate })
-				if vim.v.shell_error == 0 then
-					base = candidate
-					break
-				end
-			end
-			if not base then
-				vim.notify("diffview: нет main/master для сравнения", vim.log.levels.WARN)
-				return
-			end
-			vim.cmd(("DiffviewOpen %s...HEAD"):format(base))
-		end
-
-		vim.keymap.set("n", "<leader>go", function()
-			vim.cmd("DiffviewOpen")
-		end, {
-			desc = "Diffview: working tree vs HEAD",
-		})
-		vim.keymap.set("n", "<leader>gO", open_branch_review, {
-			desc = "Diffview: branch vs main/master",
-		})
-		vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", {
-			desc = "Diffview: current file history",
-		})
-		vim.keymap.set("n", "<leader>gq", "<cmd>DiffviewClose<cr>", {
-			desc = "Diffview: close",
-		})
-	end,
-	opts = function()
-		local actions = require("diffview.config").actions
-
-		return {
-			hooks = {
-				diff_buf_read = function(bufnr, ctx)
-					vim.b[bufnr].diffview_symbol = ctx.symbol
-					vim.bo[bufnr].modifiable = false
-				end,
-			},
-			keymaps = {
-				view = {
-					{ "n", "<tab>", actions.select_next_entry, { desc = "Diffview: open next file" } },
-					{ "n", "<s-tab>", actions.select_prev_entry, { desc = "Diffview: open previous file" } },
-					{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
-
-					{ "n", "<leader>b", false },
-					{ "n", "<leader>e", false },
-					{ "n", "[F", false },
-					{ "n", "]F", false },
-					{ "n", "gf", false },
-					{ "n", "g<C-x>", false },
-					{ "n", "<C-w><C-f>", false },
-					{ "n", "<C-w>gf", false },
-					{ "n", "gx", false },
-					{ "n", "<C-w>T", false },
-				},
-				file_panel = {
-					{ "n", "j", actions.next_entry, { desc = "Diffview: cursor to next entry" } },
-					{ "n", "<down>", actions.next_entry, { desc = "Diffview: cursor to next entry" } },
-					{ "n", "k", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
-					{ "n", "<up>", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
-					{ "n", "<cr>", actions.select_entry, { desc = "Diffview: open diff for entry" } },
-					{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
-					{ "n", "g?", actions.help("file_panel"), { desc = "Diffview: open help panel" } },
-
-					{ { "n", "x" }, "w", false },
-					{ "n", "C", false },
-					{ "n", "H", false },
-					{ "n", "zo", false },
-					{ "n", "h", false },
-					{ "n", "zc", false },
-					{ "n", "za", false },
-					{ "n", "zR", false },
-					{ "n", "zM", false },
-					{ "n", "<c-b>", false },
-					{ "n", "<c-f>", false },
-					{ "n", "<tab>", false },
-					{ "n", "<s-tab>", false },
-					{ "n", "i", false },
-					{ "n", "R", false },
-					{ "n", "o", false },
-					{ "n", "l", false },
-					{ "n", "<2-LeftMouse>", false },
-					{ "n", "[F", false },
-					{ "n", "]F", false },
-					{ "n", "gf", false },
-					{ "n", "g<C-x>", false },
-					{ "n", "-", false },
-					{ "n", "s", false },
-					{ "n", "S", false },
-					{ "n", "U", false },
-					{ "n", "X", false },
-					{ "n", "L", false },
-					{ "n", "gL", false },
-					{ "n", "f", false },
-					{ "n", "[x", false },
-					{ "n", "]x", false },
-					{ "n", "<leader>cO", false },
-					{ "n", "<leader>cT", false },
-					{ "n", "<leader>cB", false },
-					{ "n", "<leader>cA", false },
-					{ "n", "dX", false },
-					{ "n", "<leader>b", false },
-					{ "n", "<leader>e", false },
-					{ "n", "<C-w><C-f>", false },
-					{ "n", "<C-w>gf", false },
-					{ "n", "gx", false },
-					{ "n", "<C-w>T", false },
-				},
-			},
-		}
-	end,
 }
+
+function spec.init()
+	vim.keymap.set("n", "<leader>go", "<cmd>DiffviewOpen<cr>", { desc = "Diffview: working tree vs HEAD" })
+	vim.keymap.set("n", "<leader>gO", open_branch_review, { desc = "Diffview: branch vs main/master" })
+	vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Diffview: current file history" })
+	vim.keymap.set("n", "<leader>gq", "<cmd>DiffviewClose<cr>", { desc = "Diffview: close" })
+end
+
+function spec.opts()
+	local actions = require("diffview.config").actions
+
+	return {
+		hooks = {
+			diff_buf_read = function(bufnr, ctx)
+				vim.b[bufnr].diffview_symbol = ctx.symbol
+				vim.bo[bufnr].modifiable = false
+			end,
+		},
+		keymaps = {
+			view = {
+				{ "n", "<tab>", actions.select_next_entry, { desc = "Diffview: open next file" } },
+				{ "n", "<s-tab>", actions.select_prev_entry, { desc = "Diffview: open previous file" } },
+				{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
+
+				{ "n", "<leader>b", false },
+				{ "n", "[F", false },
+				{ "n", "]F", false },
+				{ "n", "gf", false },
+				{ "n", "g<C-x>", false },
+				{ "n", "<C-w><C-f>", false },
+				{ "n", "<C-w>gf", false },
+				{ "n", "gx", false },
+				{ "n", "<C-w>T", false },
+			},
+			file_panel = {
+				{ "n", "j", actions.next_entry, { desc = "Diffview: cursor to next entry" } },
+				{ "n", "<down>", actions.next_entry, { desc = "Diffview: cursor to next entry" } },
+				{ "n", "k", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
+				{ "n", "<up>", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
+				{ "n", "<cr>", actions.select_entry, { desc = "Diffview: open diff for entry" } },
+				{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
+				{ "n", "g?", actions.help("file_panel"), { desc = "Diffview: open help panel" } },
+
+				{ { "n", "x" }, "w", false },
+				{ "n", "C", false },
+				{ "n", "H", false },
+				{ "n", "zo", false },
+				{ "n", "h", false },
+				{ "n", "zc", false },
+				{ "n", "za", false },
+				{ "n", "zR", false },
+				{ "n", "zM", false },
+				{ "n", "<c-b>", false },
+				{ "n", "<c-f>", false },
+				{ "n", "<tab>", false },
+				{ "n", "<s-tab>", false },
+				{ "n", "i", false },
+				{ "n", "R", false },
+				{ "n", "o", false },
+				{ "n", "l", false },
+				{ "n", "<2-LeftMouse>", false },
+				{ "n", "[F", false },
+				{ "n", "]F", false },
+				{ "n", "gf", false },
+				{ "n", "g<C-x>", false },
+				{ "n", "-", false },
+				{ "n", "s", false },
+				{ "n", "S", false },
+				{ "n", "U", false },
+				{ "n", "X", false },
+				{ "n", "L", false },
+				{ "n", "gL", false },
+				{ "n", "f", false },
+				{ "n", "[x", false },
+				{ "n", "]x", false },
+				{ "n", "<leader>cO", false },
+				{ "n", "<leader>cT", false },
+				{ "n", "<leader>cB", false },
+				{ "n", "<leader>cA", false },
+				{ "n", "dX", false },
+				{ "n", "<leader>b", false },
+				{ "n", "<C-w><C-f>", false },
+				{ "n", "<C-w>gf", false },
+				{ "n", "gx", false },
+				{ "n", "<C-w>T", false },
+			},
+		},
+	}
+end
+
+open_branch_review = function()
+	local base
+	for _, candidate in ipairs({ "main", "master" }) do
+		vim.fn.system({ "git", "rev-parse", "--verify", "--quiet", candidate })
+		if vim.v.shell_error == 0 then
+			base = candidate
+			break
+		end
+	end
+	if not base then
+		vim.notify("diffview: нет main/master для сравнения", vim.log.levels.WARN)
+		return
+	end
+	vim.cmd(("DiffviewOpen %s...HEAD"):format(base))
+end
+
+return spec
