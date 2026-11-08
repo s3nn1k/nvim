@@ -48,8 +48,7 @@ return {
 				view = {
 					{ "n", "<tab>", actions.select_next_entry, { desc = "Diffview: open next file" } },
 					{ "n", "<s-tab>", actions.select_prev_entry, { desc = "Diffview: open previous file" } },
-					{ "n", "<leader>te", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
-					{ "n", "<leader>tg", actions.focus_files, { desc = "Diffview: focus file panel" } },
+					{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
 
 					{ "n", "<leader>b", false },
 					{ "n", "<leader>e", false },
@@ -68,8 +67,7 @@ return {
 					{ "n", "k", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
 					{ "n", "<up>", actions.prev_entry, { desc = "Diffview: cursor to previous entry" } },
 					{ "n", "<cr>", actions.select_entry, { desc = "Diffview: open diff for entry" } },
-					{ "n", "<leader>te", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
-					{ "n", "<leader>tg", actions.focus_files, { desc = "Diffview: focus file panel" } },
+					{ "n", "<leader>e", actions.toggle_files, { desc = "Diffview: toggle file panel" } },
 					{ "n", "g?", actions.help("file_panel"), { desc = "Diffview: open help panel" } },
 
 					{ { "n", "x" }, "w", false },
