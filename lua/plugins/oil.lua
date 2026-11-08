@@ -26,5 +26,15 @@ return {
 		view_options = {
 			show_hidden = true,
 		},
+
+		-- Дефолтные мапы oil перекрывают наши глобальные (C-s :w, C-h/l окна);
+		-- оставлен минимальный набор, остальное - через :h oil-actions
+		use_default_keymaps = false,
+		keymaps = {
+			["g?"] = { "actions.show_help", mode = "n" },
+			["<CR>"] = "actions.select",
+			["-"] = { "actions.parent", mode = "n" },
+			["gx"] = "actions.open_external",
+		},
 	},
 }
