@@ -1,6 +1,6 @@
 -- Политика маппингов:
 -- 1. <leader> — только длинные команды и функционал, не покрытый нативом.
--- 2. Нативные клавиши в активном использовании не затираем (C-v, Tab=C-i, H/L).
+-- 2. Нативные клавиши в активном использовании не затираем (C-v, H/L).
 -- 3. Неиспользуемые клавиши можно отдать под нужный функционал, даже дублирующий
 --    нативный (стрелки -> ресайз, C-h/j/k/l -> окна).
 local g = vim.g
@@ -36,6 +36,14 @@ map.set("n", "<Up>", "<cmd>resize -2<CR>", opts("Resize window up"))
 map.set("n", "<Down>", "<cmd>resize +2<CR>", opts("Resize window down"))
 map.set("n", "<Left>", "<cmd>vertical resize -2<CR>", opts("Resize window left"))
 map.set("n", "<Right>", "<cmd>vertical resize +2<CR>", opts("Resize window right"))
+
+-- Tab и C-i — один байт: jumplist-вперёд переносим на C-n (только normal; в insert
+-- C-n/p — автодополнение), Tab/S-Tab отдаём буферам.
+map.set("n", "<C-n>", "<C-i>", opts("Jump list forward"))
+map.set("n", "<Tab>", "<cmd>bnext<CR>", opts("Next buffer"))
+map.set("n", "<S-Tab>", "<cmd>bprevious<CR>", opts("Previous buffer"))
+
+map.set("n", "gD", "<Nop>", { silent = true })
 
 map.set("n", "<leader>w", function()
 	local wrap = not vim.o.wrap

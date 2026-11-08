@@ -12,6 +12,11 @@ vim.diagnostic.config({
 	virtual_text = false,
 })
 
+vim.keymap.set("n", "<leader>d", vim.diagnostic.setqflist, {
+	silent = true,
+	desc = "Diagnostics to quickfix",
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 	callback = function(ev)
@@ -20,10 +25,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
 
-		vim.keymap.set("n", "<leader>h", vim.diagnostic.open_float, {
-			buffer = ev.buf,
-			silent = true,
-			desc = "Line diagnostics",
-		})
+		local function lsp_picker(picker)
+			return function()
+				require("telescope.builtin")[picker]({ reuse_win = true })
+			end
+		end
+		local function opts(desc)
+			return { buffer = ev.buf, silent = true, desc = desc }
+		end
+		local map = vim.keymap.set
+
+		map("n", "<leader>h", vim.diagnostic.open_float, opts("Line diagnostics"))
+		map("n", "gd", lsp_picker("lsp_definitions"), opts("LSP definitions"))
+		map("n", "grr", lsp_picker("lsp_references"), opts("LSP references"))
+		map("n", "gri", lsp_picker("lsp_implementations"), opts("LSP implementations"))
 	end,
 })
