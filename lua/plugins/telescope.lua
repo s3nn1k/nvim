@@ -28,6 +28,13 @@ return {
 			end,
 			desc = "Grep word (project root)",
 		},
+		{
+			"<leader>fb",
+			function()
+				require("telescope.builtin").buffers()
+			end,
+			desc = "Open buffers",
+		},
 	},
 	config = function()
 		local actions = require("telescope.actions")
