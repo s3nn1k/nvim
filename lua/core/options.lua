@@ -30,6 +30,7 @@ opt.fillchars = { eob = " " }
 
 opt.showmode = false
 opt.laststatus = 3
+opt.cmdheight = 0
 
 opt.completeopt = { "menu", "menuone", "noselect", "popup" }
 vim.o.winborder = "single"
