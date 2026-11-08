@@ -1,10 +1,10 @@
-.PHONY: macos fedora test
+.PHONY: lint fmt init
 
-macos:
-	./scripts/macos-bootstrap.sh
+lint:
+	stylua --check .
 
-fedora:
-	./scripts/fedora-bootstrap.sh
+fmt:
+	stylua .
 
-test:
-	nvim -n --headless -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests"
+init:
+	./init.sh

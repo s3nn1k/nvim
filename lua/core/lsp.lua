@@ -1,53 +1,33 @@
--- Enabled LSP Servers
-vim.lsp.enable({
-	"gopls",
-	"lua_ls",
-	"kulala_ls",
-	"pyright_ls",
-	"ts_ls",
-})
+vim.lsp.enable({ "gopls", "lua_ls", "pyright_ls", "ts_ls", "kulala_ls" })
 
--- Visual
 vim.diagnostic.config({
 	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = "",
-			[vim.diagnostic.severity.WARN] = "",
-			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
 			[vim.diagnostic.severity.HINT] = "󰌵",
 		},
 	},
 	virtual_text = false,
-	float = { border = "single" },
 })
 
--- Lsp Autocmd
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("lsp-config", {}),
+	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 	callback = function(ev)
-		local km = require("package.keymaps")
-		local base_opts = { buffer = ev.buf, silent = true }
-		local function opts(desc, extra)
-			return km.opts(base_opts, desc, extra)
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if client and client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
 		end
-		local buf = vim.lsp.buf
-		local map = vim.keymap
 
-		map.set("n", "<leader>k", function()
-			buf.hover({ border = "single" })
-		end, opts("LSP hover"))
+		local km = require("core.keys")
+		local function opts(desc)
+			return km.opts({ buffer = ev.buf, silent = true }, desc)
+		end
+		local map = vim.keymap.set
 
-		map.set("n", "<leader>h", vim.diagnostic.open_float, opts("Line diagnostics"))
-		map.set("n", "<leader>R", buf.rename, opts("Rename symbol"))
-		map.set("n", "<leader>r", function()
-			require("telescope.builtin").lsp_references()
-		end, opts("References"))
-		map.set("n", "<leader>i", function()
-			require("telescope.builtin").lsp_implementations()
-		end, opts("Implementations"))
-		map.set("n", "<leader>la", buf.code_action, opts("Code action"))
-		map.set("n", "<leader>d", buf.definition, opts("Go to definition"))
-		map.set("n", "<leader>ld", buf.type_definition, opts("Type definition"))
-		map.set("n", "<leader>ls", buf.signature_help, opts("LSP signature help"))
+		map("n", "<leader>k", vim.lsp.buf.hover, opts("LSP hover"))
+		map("n", "<leader>h", vim.diagnostic.open_float, opts("Line diagnostics"))
+		map("n", "<leader>la", vim.lsp.buf.code_action, opts("Code action"))
 	end,
 })
