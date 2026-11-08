@@ -2,6 +2,40 @@ return {
 	"nvim-lualine/lualine.nvim",
 	event = "UIEnter",
 	config = function()
+		local palette = require("zenbox_dark.palette")
+
+		local function mode_block(color)
+			return { fg = palette.bg, bg = color, gui = "bold" }
+		end
+
+		local function flat(fg)
+			return { fg = fg, bg = palette.bg }
+		end
+
+		local theme = {
+			normal = {
+				a = mode_block(palette.fg),
+				b = flat(palette.fg_dim),
+				c = flat(palette.fg_dim),
+				x = flat(palette.fg_dim),
+				y = flat(palette.fg_dim),
+				z = flat(palette.fg),
+			},
+			insert = { a = mode_block(palette.blue) },
+			visual = { a = mode_block(palette.purple) },
+			replace = { a = mode_block(palette.red) },
+			command = { a = mode_block(palette.green) },
+			terminal = { a = mode_block(palette.cyan) },
+			inactive = {
+				a = flat(palette.overlay1),
+				b = flat(palette.overlay1),
+				c = flat(palette.overlay1),
+				x = flat(palette.overlay1),
+				y = flat(palette.overlay1),
+				z = flat(palette.overlay1),
+			},
+		}
+
 		local function tab_position()
 			if vim.fn.tabpagenr("$") < 2 then
 				return ""
@@ -19,7 +53,7 @@ return {
 
 		require("lualine").setup({
 			options = {
-				theme = "auto",
+				theme = theme,
 				section_separators = { left = "", right = "" },
 				component_separators = { left = "│", right = "│" },
 			},
