@@ -2,6 +2,13 @@ return {
 	"nvim-lualine/lualine.nvim",
 	event = "UIEnter",
 	config = function()
+		local function tab_position()
+			if vim.fn.tabpagenr("$") < 2 then
+				return ""
+			end
+			return vim.fn.tabpagenr() .. "/" .. vim.fn.tabpagenr("$")
+		end
+
 		local function macro_recording()
 			local reg = vim.fn.reg_recording()
 			if reg == "" then
@@ -26,7 +33,7 @@ return {
 				},
 				lualine_c = { { "filename", path = 0 } },
 				lualine_x = { "lsp_status", "encoding", "fileformat" },
-				lualine_y = { "progress" },
+				lualine_y = { tab_position, "progress" },
 				lualine_z = { "location" },
 			},
 		})
