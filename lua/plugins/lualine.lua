@@ -2,6 +2,8 @@ return {
 	"nvim-lualine/lualine.nvim",
 	event = "UIEnter",
 	config = function()
+		local palette = require("zenbox_dark.palette")
+
 		local function tab_position()
 			if vim.fn.tabpagenr("$") < 2 then
 				return ""
@@ -29,7 +31,7 @@ return {
 					"branch",
 					"diff",
 					"diagnostics",
-					{ macro_recording, color = { fg = "#ff9e64", gui = "bold" } },
+					{ macro_recording, color = { fg = palette.orange, gui = "bold" } },
 				},
 				lualine_c = { { "filename", path = 0 } },
 				lualine_x = { "lsp_status", "encoding", "fileformat" },

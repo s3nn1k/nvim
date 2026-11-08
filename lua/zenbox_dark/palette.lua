@@ -1,43 +1,58 @@
-return {
+local palette = {
 	fg = "#e8dcc8",
 	fg_dim = "#beb6a8",
 	comment = "#9d968d",
-	red = "#f47b61",
-	orange = "#f08c4f",
-	yellow = "#f3c95d",
+
+	red = "#e88a76",
+	orange = "#f0a26e",
+	yellow = "#e5c07b",
 	green = "#98c379",
-	blue = "#89b8f7",
+	cyan = "#8cd0d3",
+	blue = "#8ba8e3",
 	purple = "#c99ad9",
 	pink = "#d494ab",
-	cyan = "#86d5d9",
 	gold = "#d8bb7e",
 	param = "#b39fd1",
-	overlay0 = "#4a5261",
-	overlay1 = "#5b6472",
+
 	bg = "#15191f",
 	lift = "#1b2027",
-	selection = "#2a3140",
+	selection = "#2a3547",
+	overlay0 = "#4a5261",
+	overlay1 = "#5b6472",
+
 	diff_add = "#202c1e",
 	diff_change = "#232631",
 	diff_delete = "#2e201e",
 	diff_text = "#2b3a27",
-
-	terminal = {
-		"#14191e",
-		"#f48771",
-		"#608b4e",
-		"#e5c07b",
-		"#94bff3",
-		"#dc8cc3",
-		"#8cd0d3",
-		"#c7c7c7",
-		"#8a8a8a",
-		"#f7ab9c",
-		"#90ae83",
-		"#ecd09c",
-		"#a9ccf5",
-		"#e3a3cf",
-		"#a3d9dc",
-		"#ffffff",
-	},
 }
+
+local function bright(hex)
+	local channel = function(value)
+		return math.floor(value + (255 - value) * 0.25)
+	end
+	local r = channel(tonumber(hex:sub(2, 3), 16))
+	local g = channel(tonumber(hex:sub(4, 5), 16))
+	local b = channel(tonumber(hex:sub(6, 7), 16))
+	return string.format("#%02x%02x%02x", r, g, b)
+end
+
+palette.terminal = {
+	palette.bg,
+	palette.red,
+	palette.green,
+	palette.yellow,
+	palette.blue,
+	palette.purple,
+	palette.cyan,
+	palette.fg_dim,
+	palette.overlay1,
+	bright(palette.red),
+	bright(palette.green),
+	bright(palette.yellow),
+	bright(palette.blue),
+	bright(palette.purple),
+	bright(palette.cyan),
+	palette.fg,
+}
+
+return palette
