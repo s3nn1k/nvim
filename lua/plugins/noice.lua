@@ -20,8 +20,8 @@ return {
 			view = "cmdline_popup",
 			format = {
 				cmdline = { pattern = "^:", icon = "" },
-				search_down = { kind = "search", pattern = "^/", icon = "  " },
-				search_up = { kind = "search", pattern = "^?", icon = "  " },
+				search_down = { kind = "search", pattern = "^/", icon = "" },
+				search_up = { kind = "search", pattern = "^?", icon = "" },
 			},
 		},
 
