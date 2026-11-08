@@ -26,6 +26,7 @@ map.set("n", "<C-u>", "<C-u>zz", opts("Page up and center"))
 
 map.set("n", "<C-s>", "<cmd>w<CR>", opts("Save file"))
 map.set("n", "<C-q>", "<cmd>qa<CR>", opts("Quit all"))
+map.set("n", "<leader>q", "<cmd>bd<CR>", opts("Close buffer"))
 
 map.set("n", "<C-h>", "<C-w>h", opts("Go to window left"))
 map.set("n", "<C-j>", "<C-w>j", opts("Go to window down"))
