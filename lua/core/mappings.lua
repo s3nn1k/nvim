@@ -1,5 +1,8 @@
--- Политика: <leader> — только длинные команды и функционал, не покрытый
--- нативными маппингами. Навигация и окна — нативные (C-w, g<Tab>, CTRL-6, [d/]d).
+-- Политика маппингов:
+-- 1. <leader> — только длинные команды и функционал, не покрытый нативом.
+-- 2. Нативные клавиши в активном использовании не затираем (C-v, Tab=C-i, H/L).
+-- 3. Неиспользуемые клавиши можно отдать под нужный функционал, даже дублирующий
+--    нативный (стрелки -> ресайз, C-h/j/k/l -> окна).
 local g = vim.g
 local map = vim.keymap
 
@@ -23,6 +26,16 @@ map.set("n", "<C-u>", "<C-u>zz", opts("Page up and center"))
 
 map.set("n", "<C-s>", "<cmd>w<CR>", opts("Save file"))
 map.set("n", "<C-q>", "<cmd>qa<CR>", opts("Quit all"))
+
+map.set("n", "<C-h>", "<C-w>h", opts("Go to window left"))
+map.set("n", "<C-j>", "<C-w>j", opts("Go to window down"))
+map.set("n", "<C-k>", "<C-w>k", opts("Go to window up"))
+map.set("n", "<C-l>", "<C-w>l", opts("Go to window right"))
+
+map.set("n", "<Up>", "<cmd>resize -2<CR>", opts("Resize window up"))
+map.set("n", "<Down>", "<cmd>resize +2<CR>", opts("Resize window down"))
+map.set("n", "<Left>", "<cmd>vertical resize -2<CR>", opts("Resize window left"))
+map.set("n", "<Right>", "<cmd>vertical resize +2<CR>", opts("Resize window right"))
 
 map.set("n", "<leader>w", function()
 	local wrap = not vim.o.wrap
