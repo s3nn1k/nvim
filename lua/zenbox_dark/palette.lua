@@ -1,7 +1,7 @@
 local palette = {
-	fg = "#e8dcc8",
-	fg_dim = "#beb6a8",
-	comment = "#9d968d",
+	fg = "#d4d4d4",
+	fg_dim = "#b5b5b5",
+	comment = "#969696",
 
 	red = "#e88a76",
 	orange = "#f0a26e",
