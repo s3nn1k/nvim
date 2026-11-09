@@ -3,7 +3,7 @@ local palette = require("zenbox_dark.palette")
 return {
 	["@variable"] = { fg = palette.fg },
 	["@variable.builtin"] = { fg = palette.purple, italic = true },
-	["@variable.parameter"] = { fg = palette.purple },
+	["@variable.parameter"] = { fg = palette.fg },
 	["@variable.member"] = { fg = palette.member },
 	["@constant"] = { link = "Constant" },
 	["@constant.builtin"] = { fg = palette.orange, bold = true },
