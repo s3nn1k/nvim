@@ -51,5 +51,11 @@ return {
 			bottom_search = false,
 			command_palette = false,
 		},
+
+		views = {
+			cmdline_popup = {
+				size = { width = "60%", height = "auto" },
+			},
+		},
 	},
 }
