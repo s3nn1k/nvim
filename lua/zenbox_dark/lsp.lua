@@ -3,7 +3,7 @@ local palette = require("zenbox_dark.palette")
 return {
 	DiagnosticError = { fg = palette.red },
 	DiagnosticWarn = { fg = palette.yellow },
-	DiagnosticInfo = { fg = palette.cyan },
+	DiagnosticInfo = { fg = palette.blue },
 	DiagnosticHint = { fg = palette.purple },
 	DiagnosticOk = { fg = palette.green },
 	DiagnosticSignError = { link = "DiagnosticError" },
@@ -12,7 +12,7 @@ return {
 	DiagnosticSignHint = { link = "DiagnosticHint" },
 	DiagnosticFloatingError = { fg = palette.red, bg = palette.bg },
 	DiagnosticFloatingWarn = { fg = palette.yellow, bg = palette.bg },
-	DiagnosticFloatingInfo = { fg = palette.cyan, bg = palette.bg },
+	DiagnosticFloatingInfo = { fg = palette.blue, bg = palette.bg },
 	DiagnosticFloatingHint = { fg = palette.purple, bg = palette.bg },
 
 	["@lsp.type.namespace"] = { link = "@module" },

@@ -10,9 +10,7 @@ local palette = {
 	cyan = "#8cd0d3",
 	blue = "#8ba8e3",
 	purple = "#c99ad9",
-	pink = "#d494ab",
-	gold = "#d8bb7e",
-	param = "#b39fd1",
+	member = "#d8bb7e",
 
 	bg = "#15191f",
 	lift = "#1b2027",
