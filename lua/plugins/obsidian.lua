@@ -1,8 +1,14 @@
 local frontmatter
-local new_note_from_template
 local notify_workspace
 local note_id
 local note_path
+
+local function new_note_from_template()
+	local source_path = Obsidian.workspace.root
+	require("obsidian.actions").new_from_template(nil, nil, function(new_note)
+		new_note:open({ sync = true })
+	end, { source_path = source_path })
+end
 
 local spec = {
 	"obsidian-nvim/obsidian.nvim",
@@ -93,13 +99,6 @@ frontmatter = function(note)
 		end
 	end
 	return out
-end
-
-new_note_from_template = function()
-	local source_path = Obsidian.workspace.root
-	require("obsidian.actions").new_from_template(nil, nil, function(new_note)
-		new_note:open({ sync = true })
-	end, { source_path = source_path })
 end
 
 notify_workspace = function(event)
