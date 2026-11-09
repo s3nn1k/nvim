@@ -11,7 +11,7 @@ local palette = {
 	cyan = "#8ec07c",
 	blue = "#83a598",
 	purple = "#d3869b",
-	member = "#d8bb7e",
+	member = "#c2a67e",
 
 	bg = "#15191f",
 	lift = "#3c3836",
