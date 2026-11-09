@@ -11,7 +11,6 @@ local palette = {
 	cyan = "#8ec07c",
 	blue = "#83a598",
 	purple = "#d3869b",
-	member = "#c2a67e",
 
 	bg = "#15191f",
 	lift = "#3c3836",
@@ -20,7 +19,7 @@ local palette = {
 	overlay1 = "#7c6f64",
 
 	diff_add = "#41512f",
-	diff_change = "#45403d",
+	diff_change = "#504945",
 	diff_delete = "#533535",
 	diff_text = "#4a412f",
 }
