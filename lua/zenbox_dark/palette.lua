@@ -12,7 +12,7 @@ local palette = {
 	blue = "#83a598",
 	purple = "#d3869b",
 
-	bg = "#32302f",
+	bg = "#282828",
 	lift = "#3c3836",
 	selection = "#665c54",
 	overlay0 = "#504945",
