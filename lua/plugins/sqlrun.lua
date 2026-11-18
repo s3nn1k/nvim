@@ -15,6 +15,7 @@ return {
 		},
 	},
 	opts = {
+		timeout_ms = 60000,
 		result_keymaps = { close = "q", save = "<C-s>" },
 	},
 }
