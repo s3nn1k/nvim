@@ -14,7 +14,7 @@
 
 ```sh
 git clone https://github.com/s3nn1k/nvim.git ~/.config/nvim
-make init        # Fedora; macOS: ./scripts/macos-bootstrap.sh
+make install     # Fedora; macOS: ./platform/macos.sh
 ```
 
 Bootstrap ставит системные зависимости и LSP-серверы (gopls, tsserver, pyright, luals,
@@ -42,7 +42,7 @@ bashls, ShellCheck). Плагины и парсеры устанавливают
 | `lua/plugins/`     | спеки lazy.nvim, файл на плагин |
 | `lsp/`             | конфиги LSP-серверов            |
 | `lua/zenbox_dark/` | тема: палитра + модули доменов  |
-| `scripts/`         | bootstrap Fedora и macOS        |
+| `platform/`        | install Fedora и macOS          |
 
 ## Разработка
 

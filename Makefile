@@ -1,12 +1,12 @@
-.PHONY: lint fmt init
+.PHONY: lint fmt install
 
 lint:
 	stylua --check .
-	for script in init.sh scripts/*.sh; do bash -n "$$script" || exit 1; done
-	shellcheck init.sh scripts/*.sh
+	for script in scripts/install.sh platform/*.sh; do bash -n "$$script" || exit 1; done
+	shellcheck scripts/install.sh platform/*.sh
 
 fmt:
 	stylua .
 
-init:
-	./init.sh
+install:
+	./scripts/install.sh
